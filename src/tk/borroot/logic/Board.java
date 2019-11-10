@@ -59,19 +59,7 @@ public class Board {
     public String toString () {
         String result = "";
         for (int i = 0; i < board.length; i++) {
-            String value = "";
-            switch (board[i]) {
-                case EMPTY:
-                    value = " ";
-                    break;
-                case CROSS:
-                    value = "X";
-                    break;
-                case CIRCLE:
-                    value = "O";
-                    break;
-            }
-            result += value + ((i % N != 2) ? "|" : "\n");
+            result += board[i].toString() + ((i % N != 2) ? "|" : "\n");
         }
         return result;
     }

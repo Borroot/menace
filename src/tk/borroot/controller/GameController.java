@@ -2,7 +2,6 @@ package tk.borroot.controller;
 
 import tk.borroot.logic.Board;
 import tk.borroot.logic.Logic;
-import tk.borroot.logic.Symbol;
 import tk.borroot.player.Player;
 import tk.borroot.player.PlayerHuman;
 import tk.borroot.player.PlayerMenace;
@@ -12,6 +11,10 @@ import java.util.Scanner;
 
 import static tk.borroot.logic.Symbol.*;
 
+/**
+ * This class handles the overall game logic.
+ * @author Bram Pulles
+ */
 public class GameController {
 
     private Scanner input = new Scanner(System.in);
@@ -20,25 +23,21 @@ public class GameController {
         init();
     }
 
+    /**
+     * Initialize the game by asking for the amount of rounds and the type
+     * of players. This function will loop until the specified amount of games
+     * has been played.
+     */
     private void init () {
         final int ROUNDS = rounds();
 
         Player[] players = {player(1), player(2)};
 
         for (int i = 0; i < ROUNDS || ROUNDS == -1; i++) {
-            Player winner = play (players);
+            // Every new round another player will start.
+            Player winner = play (players, players[i % players.length]);
             System.out.println((winner == null)? "It is a tie!" : "Player " + winner + " wins!");
         }
-    }
-
-    /**
-     * Get the next turn.
-     * @param onturn the player who is currently on turn
-     * @param players an array with 2 players
-     * @return the player whose is on turn
-     */
-    private Player nextTurn (Player onturn, Player[] players) {
-        return (onturn.equals(players[0]))? players[1] : players[0];
     }
 
     /**
@@ -46,12 +45,13 @@ public class GameController {
      * @param players an array with 2 players
      * @return the player who has one or null if it is a tie.
      */
-    private Player play (Player[] players) {
+    private Player play (Player[] players, Player onturn) {
         Board board = new Board();
-        Player onturn = players[0];
-
         System.out.println(board);
+
+        // Start the game loop and continue until a win or tie.
         do {
+            // Ask for a move until the player entered a valid move.
             int move;
             do {
                 move = onturn.move(board);
@@ -72,11 +72,21 @@ public class GameController {
     }
 
     /**
+     * Get the next turn.
+     * @param onturn the player who is currently on turn
+     * @param players an array with 2 players
+     * @return the player whose is on turn
+     */
+    private Player nextTurn (Player onturn, Player[] players) {
+        return (onturn.equals(players[0]))? players[1] : players[0];
+    }
+
+    /**
      * Ask for how many rounds there are supposed to be played.
      * @return a positive amount of rounds or -1 for inf amount
      */
     private int rounds () {
-        System.out.print("Amount of rounds (-1 for inf)\n> ");
+        System.out.print("Amount of rounds (-1 for inf): ");
         return input.nextInt();
     }
 

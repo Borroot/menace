@@ -4,6 +4,10 @@ import tk.borroot.player.Player;
 
 import static tk.borroot.logic.Symbol.EMPTY;
 
+/**
+ * This class handles all the game logic, so for example determining if the game is won.
+ * @author Bram Pulles
+ */
 public class Logic {
 
     /**
@@ -12,7 +16,7 @@ public class Logic {
      */
     public static boolean won (Board board) {
         // Check all horizontal lines.
-        for (int i = 0; i < board.N; i++) {
+        for (int i = 0; i < board.N; i += board.N) {
             if (board.get(i) != EMPTY && board.get(i) == board.get(i+1) && board.get(i+1) == board.get(i+2)) {
                 return true;
             }

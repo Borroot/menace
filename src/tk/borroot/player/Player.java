@@ -5,6 +5,11 @@ import tk.borroot.logic.Symbol;
 
 import static tk.borroot.logic.Symbol.CROSS;
 
+/**
+ * This class represents a player with a symbol.
+ * All other players implement this class and the move function.
+ * @author Bram Pulles
+ */
 public abstract class Player {
 
     private Symbol symbol;
@@ -37,6 +42,6 @@ public abstract class Player {
 
     @Override
     public String toString () {
-        return (symbol == CROSS)? "X" : "O";
+        return symbol.toString();
     }
 }

@@ -17,10 +17,18 @@ public abstract class Player {
      */
     public abstract int move(Board board);
 
+    /**
+     * Set the symbol of this player.
+     * @param symbol
+     */
     public void setSymbol(Symbol symbol) {
         this.symbol = symbol;
     }
 
+    /**
+     * Get the symbol of this player.
+     * @return players symbol
+     */
     public Symbol getSymbol() {
         return symbol;
     }

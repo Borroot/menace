@@ -1,6 +1,7 @@
 package tk.borroot.controller;
 
 import tk.borroot.logic.Board;
+import tk.borroot.logic.Logic;
 import tk.borroot.logic.Symbol;
 import tk.borroot.player.Player;
 import tk.borroot.player.PlayerHuman;
@@ -23,18 +24,43 @@ public class GameController {
     private void init () {
         final int ROUNDS = rounds();
 
-        Player player1 = player(1);
-        Player player2 = player(2);
+        Player[] players = {player(1), player(2)};
 
         for (int i = 0; i < ROUNDS || ROUNDS == -1; i++) {
-            Player winner = play (player1, player2);
+            Player winner = play (players);
+
         }
     }
 
-    private Player play (Player player1, Player player2) {
+    /**
+     * Get the next turn.
+     * @param onturn the player who is currently on turn
+     * @param players an array with 2 players
+     * @return the player whose is on turn
+     */
+    private Player nextTurn (Player onturn, Player[] players) {
+        return (onturn.equals(players[0]))? players[1] : players[0];
+    }
+
+    /**
+     * Play one round.
+     * @param players an array with 2 players
+     * @return the player who has one or null if it is a tie.
+     */
+    private Player play (Player[] players) {
         Board board = new Board();
-        //TODO: make main game loop.
-        return null;
+        Player onturn = players[0];
+        do {
+            // TODO let the player on turn make a move.
+            onturn = nextTurn(onturn, players);
+        } while (!Logic.won(board) && !board.isFull());
+
+        if (Logic.won(board)) {
+            // here we need to restore the turn
+            return nextTurn(onturn, players);
+        } else {
+            return null;
+        }
     }
 
     /**

@@ -1,6 +1,6 @@
 package tk.borroot.logic;
 
-import static tk.borroot.logic.Symbol.EMPTY;
+import static tk.borroot.logic.Symbol.*;
 
 /**
  * Handles all the logic concerning the tic tac toe board.
@@ -8,38 +8,34 @@ import static tk.borroot.logic.Symbol.EMPTY;
  */
 public class Board {
 
-    private final int N = 3;
-    private Symbol[][] board = new Symbol[N][N];
+    public final int N = 3;
+    private Symbol[] board = new Symbol[N*N];
 
     /**
      * Create a board and initialize all the cells to empty.
      */
     public Board () {
         for (int i = 0; i < board.length; i++) {
-            for (int j = 0; j < board[i].length; j++) {
-                board[i][j] = EMPTY;
-            }
+            board[i] = EMPTY;
         }
     }
 
     /**
      * Set a value on the board.
-     * @param x position
-     * @param y position
+     * @param cell a cell on the board with value [0..8]
      * @param symbol value to set the cell to
      */
-    public void set (final int x, final int y, final Symbol symbol) {
-        board[y][x] = symbol;
+    public void set (final int cell, final Symbol symbol) {
+        board[cell] = symbol;
     }
 
     /**
      * Get a value on the board.
-     * @param x position
-     * @param y position
+     * @param cell a cell on the board with value [0..8]
      * @return the corresponding cell value
      */
-    public Symbol get (final int x, final int y) {
-        return board[y][x];
+    public Symbol get (final int cell) {
+        return board[cell];
     }
 
     /**
@@ -48,10 +44,8 @@ public class Board {
      */
     public boolean isFull () {
         for (int i = 0; i < board.length; i++) {
-            for (int j = 0; j < board[i].length; j++) {
-                if (board[i][j] == EMPTY) {
-                    return false;
-                }
+            if (board[i] == EMPTY) {
+                return false;
             }
         }
         return true;
@@ -65,16 +59,19 @@ public class Board {
     public String toString () {
         String result = "";
         for (int i = 0; i < board.length; i++) {
-            for (int j = 0; j < board[i].length; j++) {
-                String value = "";
-                switch (board[i][j]) {
-                    case EMPTY:  value = " "; break;
-                    case CROSS:  value = "X"; break;
-                    case CIRCLE: value = "O"; break;
-                }
-                result += value + ((j < board[i].length - 1)? "|" : "");
+            String value = "";
+            switch (board[i]) {
+                case EMPTY:
+                    value = " ";
+                    break;
+                case CROSS:
+                    value = "X";
+                    break;
+                case CIRCLE:
+                    value = "O";
+                    break;
             }
-            result += "\n";
+            result += value + ((i % N != 2) ? "|" : "\n");
         }
         return result;
     }

@@ -10,8 +10,7 @@ import tk.borroot.player.PlayerMinmax;
 
 import java.util.Scanner;
 
-import static tk.borroot.logic.Symbol.CIRCLE;
-import static tk.borroot.logic.Symbol.CROSS;
+import static tk.borroot.logic.Symbol.*;
 
 public class GameController {
 
@@ -28,7 +27,7 @@ public class GameController {
 
         for (int i = 0; i < ROUNDS || ROUNDS == -1; i++) {
             Player winner = play (players);
-
+            System.out.println((winner == null)? "It is a tie!" : "Player " + winner + " wins!");
         }
     }
 
@@ -50,11 +49,20 @@ public class GameController {
     private Player play (Player[] players) {
         Board board = new Board();
         Player onturn = players[0];
+
+        System.out.println(board);
         do {
-            // TODO let the player on turn make a move.
+            int move;
+            do {
+                move = onturn.move(board);
+            } while (board.get(move) != EMPTY);
+            board.set(move, onturn.getSymbol());
+
+            System.out.println(board);
             onturn = nextTurn(onturn, players);
         } while (!Logic.won(board) && !board.isFull());
 
+        // Return the winner of this round.
         if (Logic.won(board)) {
             // here we need to restore the turn
             return nextTurn(onturn, players);

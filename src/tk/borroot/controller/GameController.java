@@ -2,10 +2,7 @@ package tk.borroot.controller;
 
 import tk.borroot.logic.Board;
 import tk.borroot.logic.Logic;
-import tk.borroot.player.Player;
-import tk.borroot.player.PlayerHuman;
-import tk.borroot.player.PlayerMenace;
-import tk.borroot.player.PlayerMinmax;
+import tk.borroot.player.*;
 
 import java.util.Scanner;
 
@@ -105,7 +102,7 @@ public class GameController {
      * @return a player object
      */
     private Player player(final int num) {
-        System.out.print("Type for player " + num + ":\n (0) Human\n (1) Menace\n (2) Minmax\n> ");
+        System.out.print("Type for player " + num + ":\n (0) Human\n (1) Menace\n (2) Minmax\n (3) Qlearning\n> ");
         int choice;
         try {
             choice = input.nextInt();
@@ -124,6 +121,9 @@ public class GameController {
                 break;
             case 2:
                 player = new PlayerMinmax();
+                break;
+            case 3:
+                player = new PlayerQlearning();
                 break;
             default:
                 return player(num);

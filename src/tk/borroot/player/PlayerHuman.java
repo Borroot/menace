@@ -21,7 +21,14 @@ public class PlayerHuman extends Player {
     public int move(Board board) {
         System.out.print("Please enter your move player " + this.getSymbol() + ": ");
         try {
-            return input.nextInt();
+            int choice = input.nextInt();
+
+            if (choice >= 0 && choice < 9) {
+                return choice;
+            } else {
+                input.nextLine();
+                return this.move(board);
+            }
         } catch (Exception e) {
             input.nextLine();
             return this.move(board);

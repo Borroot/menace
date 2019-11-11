@@ -3,10 +3,10 @@ package tk.borroot.player;
 import tk.borroot.logic.Board;
 import tk.borroot.logic.Logic;
 
+import java.util.Random;
 import java.util.Vector;
 
-import static java.lang.Math.max;
-import static java.lang.Math.min;
+import static java.lang.Math.*;
 import static tk.borroot.logic.Symbol.*;
 
 /**
@@ -83,7 +83,8 @@ public class PlayerMinmax extends Player {
     @Override
     public int move(Board board) {
         int max = Integer.MIN_VALUE;
-        int bestmove = -1;
+        Vector<Integer> bestmoves = new Vector<>();
+
         // try all the possible moves and take the best one
         Vector<Integer> moves = validMoves(board);
         for (Integer move : moves) {
@@ -91,11 +92,15 @@ public class PlayerMinmax extends Player {
             int value = minmax(board, false);
             board.set(move, EMPTY);
 
+            // update the best moves
             if (value > max) {
                 max = value;
-                bestmove = move;
+                bestmoves.clear();
+                bestmoves.add(move);
+            } else if (value == max) {
+                bestmoves.add(move);
             }
         }
-        return bestmove;
+        return bestmoves.get(new Random().nextInt(bestmoves.size()));
     }
 }

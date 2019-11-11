@@ -5,7 +5,7 @@ import tk.borroot.logic.Board;
 public class PlayerMenace extends Player {
 
     @Override
-    public int move(Board board) {
+    public int move(final Board board) {
         return 0;
     }
 }

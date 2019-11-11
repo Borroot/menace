@@ -56,6 +56,24 @@ public class Board {
     }
 
     /**
+     * Get the size of the board.
+     *
+     * @return the size of the board
+     */
+    public int size() {
+        return board.length;
+    }
+
+    @Override
+    public Board clone() {
+        Board board = new Board();
+        for (int i = 0; i < this.board.length; i++) {
+            board.set(i, this.board[i]);
+        }
+        return board;
+    }
+
+    /**
      * Print the board.
      *
      * @return a string representation of the board.

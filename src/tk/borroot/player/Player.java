@@ -24,7 +24,7 @@ public abstract class Player {
      * @param board
      * @return a value in [0..8] which corresponds to the move
      */
-    public abstract int move(final Board board);
+    public abstract int move(Board board);
 
     /**
      * Set the symbol of this player.

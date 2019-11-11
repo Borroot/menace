@@ -1,7 +1,5 @@
 package tk.borroot.logic;
 
-import tk.borroot.player.Player;
-
 import static tk.borroot.logic.Symbol.EMPTY;
 
 /**
@@ -16,18 +14,18 @@ public class Logic {
     /**
      * Check if the board is won.
      *
-     * @return the symbol which won or null if nobody won.
+     * @return the symbol which won or null if nobody won
      */
     public static Symbol won(Board board) {
         // Check all horizontal lines.
-        for (int i = 0; i < N; i += N) {
-            if (board.get(i) != EMPTY && board.get(i) == board.get(i + 1) && board.get(i + 1) == board.get(i + 2)) {
-                return board.get(i);
+        for (int i = 0, base = 0; i < N; i++, base += N) {
+            if (board.get(base) != EMPTY && board.get(base) == board.get(base + 1) && board.get(base + 1) == board.get(base + 2)) {
+                return board.get(base);
             }
         }
         // Check all vertical lines.
         for (int i = 0; i < N; i++) {
-            if (board.get(i) != EMPTY && board.get(i) == board.get(i + N) && board.get(i + N) == board.get(i + N + N)) {
+            if (board.get(i) != EMPTY && board.get(i) == board.get(i + N) && board.get(i + N) == board.get(i + 2 * N)) {
                 return board.get(i);
             }
         }

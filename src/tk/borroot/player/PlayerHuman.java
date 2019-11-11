@@ -18,7 +18,7 @@ public class PlayerHuman extends Player {
     }
 
     @Override
-    public int move(final Board board) {
+    public int move(Board board) {
         System.out.print("Please enter your move player " + this.getSymbol() + ": ");
         try {
             int choice = input.nextInt();

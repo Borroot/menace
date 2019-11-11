@@ -1,6 +1,7 @@
 package tk.borroot;
 
 import tk.borroot.controller.GameController;
+import tk.borroot.logic.Board;
 
 public class Main {
 

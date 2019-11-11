@@ -30,11 +30,19 @@ public class GameController {
         final int ROUNDS = rounds();
         Player[] players = {player(1), player(2)};
 
+        int[] results = {0, 0, 0}; // wins player 1, wins player 2, ties
         for (int i = 0; i < ROUNDS || ROUNDS <= -1; i++) {
             // Every new round another player will start.
             Player winner = play(players, players[i % players.length]);
-            System.out.println((winner == null) ? "It is a tie!" : "Player " + winner + " wins!");
+
+            // Process the result.
+            if (winner == null) {
+                results[2]++;
+            } else {
+                results[(winner == players[0])? 0 : 1]++;
+            }
         }
+        System.out.println("Player 1 won " + results[0] + " time(s), Player 2 won " + results[1] + " time(s) and there were " + results[2] + " tie(s).");
     }
 
     /**
@@ -45,7 +53,6 @@ public class GameController {
      */
     private Player play(Player[] players, Player onturn) {
         Board board = new Board();
-        System.out.println(board);
 
         // Start the game loop and continue until a win or tie.
         do {
@@ -54,15 +61,15 @@ public class GameController {
             do {
                 move = onturn.move(board);
             } while (board.get(move) != EMPTY);
-            board.set(move, onturn.getSymbol());
 
-            System.out.println(board);
+            // Make the move and change the turn.
+            board.set(move, onturn.getSymbol());
             onturn = nextTurn(onturn, players);
         } while (!board.isFull() && Logic.won(board) == null);
 
         // Return the winner of this round.
         if (Logic.won(board) != null) {
-            return (Logic.won(board) == players[0].getSymbol())? players[0] : players[1];
+            return (Logic.won(board) == players[0].getSymbol()) ? players[0] : players[1];
         } else {
             return null;
         }

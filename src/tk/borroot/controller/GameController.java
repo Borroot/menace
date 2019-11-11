@@ -58,12 +58,11 @@ public class GameController {
 
             System.out.println(board);
             onturn = nextTurn(onturn, players);
-        } while (!Logic.won(board) && !board.isFull());
+        } while (!board.isFull() && Logic.won(board) == null);
 
         // Return the winner of this round.
-        if (Logic.won(board)) {
-            // here we need to restore the turn
-            return nextTurn(onturn, players);
+        if (Logic.won(board) != null) {
+            return (Logic.won(board) == players[0].getSymbol())? players[0] : players[1];
         } else {
             return null;
         }

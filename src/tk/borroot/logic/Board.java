@@ -9,7 +9,7 @@ import static tk.borroot.logic.Symbol.*;
  */
 public class Board {
 
-    public final int N = 3;
+    public static final int N = 3;
     private Symbol[] board = new Symbol[N * N];
 
     /**

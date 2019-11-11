@@ -6,13 +6,14 @@ import java.util.Scanner;
 
 /**
  * This class represents a human player.
+ *
  * @author Bram Pulles
  */
 public class PlayerHuman extends Player {
 
     private final Scanner input = new Scanner(System.in);
 
-    public PlayerHuman () {
+    public PlayerHuman() {
         super();
     }
 

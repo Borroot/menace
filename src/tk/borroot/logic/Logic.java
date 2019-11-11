@@ -6,24 +6,26 @@ import static tk.borroot.logic.Symbol.EMPTY;
 
 /**
  * This class handles all the game logic, so for example determining if the game is won.
+ *
  * @author Bram Pulles
  */
 public class Logic {
 
     /**
      * Check if the board is won.
+     *
      * @return if the board is won by a player.
      */
-    public static boolean won (Board board) {
+    public static boolean won(Board board) {
         // Check all horizontal lines.
         for (int i = 0; i < board.N; i += board.N) {
-            if (board.get(i) != EMPTY && board.get(i) == board.get(i+1) && board.get(i+1) == board.get(i+2)) {
+            if (board.get(i) != EMPTY && board.get(i) == board.get(i + 1) && board.get(i + 1) == board.get(i + 2)) {
                 return true;
             }
         }
         // Check all vertical lines.
         for (int i = 0; i < board.N; i++) {
-            if (board.get(i) != EMPTY && board.get(i) == board.get(i+board.N) && board.get(i+board.N) == board.get(i+board.N+board.N)) {
+            if (board.get(i) != EMPTY && board.get(i) == board.get(i + board.N) && board.get(i + board.N) == board.get(i + board.N + board.N)) {
                 return true;
             }
         }

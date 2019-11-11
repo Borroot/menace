@@ -90,7 +90,12 @@ public class GameController {
      */
     private int rounds() {
         System.out.print("Amount of rounds (-1 for inf): ");
-        return input.nextInt();
+        try {
+            return input.nextInt();
+        } catch (Exception e) {
+            input.nextLine();
+            return rounds();
+        }
     }
 
     /**
@@ -101,7 +106,13 @@ public class GameController {
      */
     private Player player(final int num) {
         System.out.print("Type for player " + num + ":\n (0) Human\n (1) Menace\n (2) Minmax\n> ");
-        int choice = input.nextInt();
+        int choice;
+        try {
+            choice = input.nextInt();
+        } catch (Exception e) {
+            input.nextLine();
+            return player(num);
+        }
 
         Player player;
         switch (choice) {
@@ -115,12 +126,10 @@ public class GameController {
                 player = new PlayerMinmax();
                 break;
             default:
-                System.out.println("That is an invalid player, please choose again.");
                 return player(num);
         }
 
         player.setSymbol((num == 1) ? CROSS : CIRCLE);
         return player;
     }
-
 }

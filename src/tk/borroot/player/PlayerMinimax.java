@@ -10,12 +10,12 @@ import static java.lang.Math.*;
 import static tk.borroot.logic.Symbol.*;
 
 /**
- * This player plays by the minmax algorithm without a limit on the depth,
+ * This player plays by the minimax algorithm without a limit on the depth,
  * thus making a perfect player.
  *
  * @author Bram Pulles
  */
-public class PlayerMinmax extends Player {
+public class PlayerMinimax extends Player {
 
     /**
      * Get all the valid moves aka empty cells on the board.

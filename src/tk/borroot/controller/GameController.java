@@ -108,7 +108,7 @@ public class GameController {
      * @return a player object
      */
     private Player player(final int num) {
-        System.out.print("Type for player " + num + ":\n (0) Human\n (1) Minmax\n (2) Negamax\n (3) Menace\n (4) Qlearning\n> ");
+        System.out.print("Type for player " + num + ":\n (0) Human\n (1) Minimax\n (2) Negamax\n (3) Menace\n (4) Qlearning\n> ");
         int choice;
         try {
             choice = input.nextInt();
@@ -123,7 +123,7 @@ public class GameController {
                 player = new PlayerHuman();
                 break;
             case 1:
-                player = new PlayerMinmax();
+                player = new PlayerMinimax();
                 break;
             case 2:
                 player = new PlayerNegamax();

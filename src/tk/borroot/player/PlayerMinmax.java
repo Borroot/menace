@@ -34,7 +34,7 @@ public class PlayerMinmax extends Player {
     }
 
     /**
-     * Give a value to the current state of the board.
+     * Give a value to the current state of the board from the perspective of player A.
      *
      * @param board which is given a value by the heuristic of winning
      * @return 1 if this player won, -1 if the other player won and 0 if its a tie
@@ -57,14 +57,17 @@ public class PlayerMinmax extends Player {
     private int negamax(Board board, int color) {
         // base case
         if (board.isFull() || Logic.won(board) != null) {
-            return heuristic(board);
+			System.out.println("WON BY " + Logic.won(board));
+			System.out.println(board);
+			System.out.println("Base case for color " + color + ":\t" + (color * heuristic(board)));
+            return color * heuristic(board);
         }
         // recursive cases
         Vector<Integer> moves = validMoves(board);
 		int value = Integer.MIN_VALUE;
 		for (Integer move : moves) {
 			board.set(move, this.getSymbol());
-			value = max(value, -1 * negamax(board, -1 * color));
+			value = max(value, -negamax(board, -color));
 			board.set(move, EMPTY);
 		}
 		return value;
@@ -80,6 +83,7 @@ public class PlayerMinmax extends Player {
         for (Integer move : moves) {
             board.set(move, this.getSymbol());
             int value = negamax(board, -1);
+			System.out.println("Value for move " + move + " is " + value);
             board.set(move, EMPTY);
 
             // update the best moves

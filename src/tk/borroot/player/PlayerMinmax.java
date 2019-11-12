@@ -41,43 +41,33 @@ public class PlayerMinmax extends Player {
      */
     private int heuristic(Board board) {
         if (Logic.won(board) != null) {
-            return (Logic.won(board) == this.getSymbol()) ? 1 : -1;
+            return (Logic.won(board) == this.getSymbol())? 1 : -1;
         } else {
             return 0;
         }
     }
 
     /**
-     * The minimax algorithm.
+     * The negamax algorithm.
      *
-     * @param board     the board to be valued
-     * @param maxplayer if true otherwise minimizing player
+     * @param board the board to be valued
+     * @param color 1 for the max player and -1 for the min player
      * @return the value of the board for the player
      */
-    private int minmax(Board board, boolean maxplayer) {
+    private int negamax(Board board, int color) {
         // base case
         if (board.isFull() || Logic.won(board) != null) {
             return heuristic(board);
         }
         // recursive cases
         Vector<Integer> moves = validMoves(board);
-        if (maxplayer) {
-            int value = Integer.MIN_VALUE;
-            for (Integer move : moves) {
-                board.set(move, this.getSymbol());
-                value = max(value, minmax(board, false));
-                board.set(move, EMPTY);
-            }
-            return value;
-        } else { // min player
-            int value = Integer.MAX_VALUE;
-            for (Integer move : moves) {
-                board.set(move, ((this.getSymbol() == CROSS) ? CIRCLE : CROSS));
-                value = min(value, minmax(board, true));
-                board.set(move, EMPTY);
-            }
-            return value;
-        }
+		int value = Integer.MIN_VALUE;
+		for (Integer move : moves) {
+			board.set(move, this.getSymbol());
+			value = max(value, -1 * negamax(board, -1 * color));
+			board.set(move, EMPTY);
+		}
+		return value;
     }
 
     @Override
@@ -89,7 +79,7 @@ public class PlayerMinmax extends Player {
         Vector<Integer> moves = validMoves(board);
         for (Integer move : moves) {
             board.set(move, this.getSymbol());
-            int value = minmax(board, false);
+            int value = negamax(board, -1);
             board.set(move, EMPTY);
 
             // update the best moves

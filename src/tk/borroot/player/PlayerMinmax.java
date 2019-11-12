@@ -2,6 +2,7 @@ package tk.borroot.player;
 
 import tk.borroot.logic.Board;
 import tk.borroot.logic.Logic;
+import tk.borroot.logic.Symbol;
 
 import java.util.Random;
 import java.util.Vector;
@@ -79,7 +80,7 @@ public class PlayerMinmax extends Player {
         Vector<Integer> moves = validMoves(board);
         for (Integer move : moves) {
             board.set(move, this.getSymbol());
-            int value = negamax(board, -1);
+            int value = -negamax(board, -1);
             board.set(move, EMPTY);
 
             // update the best moves
@@ -91,7 +92,6 @@ public class PlayerMinmax extends Player {
                 bestmoves.add(move);
             }
         }
-		int move = bestmoves.get(new Random().nextInt(bestmoves.size()));
-        return move;
+        return bestmoves.get(new Random().nextInt(bestmoves.size()));
     }
 }

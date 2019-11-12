@@ -84,6 +84,6 @@ public class Board {
         for (int i = 0; i < board.length; i++) {
             result += board[i].toString() + ((i % N != 2) ? "|" : "\n");
         }
-        return result.substring(0, result.length() - 2);
+        return result.substring(0, result.length() - 1);
     }
 }

@@ -57,16 +57,13 @@ public class PlayerMinmax extends Player {
     private int negamax(Board board, int color) {
         // base case
         if (board.isFull() || Logic.won(board) != null) {
-			System.out.println("WON BY " + Logic.won(board));
-			System.out.println(board);
-			System.out.println("Base case for color " + color + ":\t" + (color * heuristic(board)));
             return color * heuristic(board);
         }
         // recursive cases
         Vector<Integer> moves = validMoves(board);
 		int value = Integer.MIN_VALUE;
 		for (Integer move : moves) {
-			board.set(move, this.getSymbol());
+			board.set(move, ((color == 1)? this.getSymbol() : (this.getSymbol() == CROSS)? CIRCLE : CROSS));
 			value = max(value, -negamax(board, -color));
 			board.set(move, EMPTY);
 		}
@@ -83,7 +80,6 @@ public class PlayerMinmax extends Player {
         for (Integer move : moves) {
             board.set(move, this.getSymbol());
             int value = negamax(board, -1);
-			System.out.println("Value for move " + move + " is " + value);
             board.set(move, EMPTY);
 
             // update the best moves
@@ -95,6 +91,7 @@ public class PlayerMinmax extends Player {
                 bestmoves.add(move);
             }
         }
-        return bestmoves.get(new Random().nextInt(bestmoves.size()));
+		int move = bestmoves.get(new Random().nextInt(bestmoves.size()));
+        return move;
     }
 }

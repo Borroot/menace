@@ -3,6 +3,12 @@ package tk.borroot.controller;
 import tk.borroot.logic.Board;
 import tk.borroot.logic.Logic;
 import tk.borroot.player.*;
+import tk.borroot.player.perfect.PlayerMinimax;
+import tk.borroot.player.perfect.PlayerNegamax;
+import tk.borroot.player.reinforcement.PlayerMenace;
+import tk.borroot.player.reinforcement.PlayerQlearning;
+import tk.borroot.player.stupid.PlayerHuman;
+import tk.borroot.player.stupid.PlayerRandom;
 
 import java.util.Scanner;
 

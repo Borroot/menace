@@ -1,8 +1,9 @@
-package tk.borroot.player;
+package tk.borroot.player.perfect;
 
 import tk.borroot.logic.Board;
 import tk.borroot.logic.Logic;
 import tk.borroot.logic.Symbol;
+import tk.borroot.player.Player;
 
 import java.util.Random;
 import java.util.Vector;

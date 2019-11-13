@@ -28,12 +28,13 @@ public class GameController {
      */
     private void init() {
         final int ROUNDS = rounds();
+        final boolean ALTERNATE = alternate();
         Player[] players = {player(1), player(2)};
 
         int[] results = {0, 0, 0}; // wins player 1, wins player 2, ties
         for (int i = 0; i < ROUNDS || ROUNDS <= -1; i++) {
-            // Every new round another player will start.
-            Player winner = play(players, players[i % players.length]);
+            // Every new round another player will start, if alternate is true.
+            Player winner = play(players, (ALTERNATE)? players[i % players.length] : players[0]);
 
             // Process the result.
             if (winner == null) {
@@ -78,12 +79,22 @@ public class GameController {
     /**
      * Get the next turn.
      *
-     * @param onturn  the player who is currently on turn
+     * @param onturn the player who is currently on turn
      * @param players an array with 2 players
      * @return the player whose is on turn
      */
     private Player nextTurn(Player onturn, Player[] players) {
         return (onturn.equals(players[0])) ? players[1] : players[0];
+    }
+
+    private boolean alternate() {
+        System.out.print("Do you want to alternate turns? (0) for no, (1) for yes: ");
+        try {
+            return input.nextInt() == 1;
+        } catch (Exception e) {
+            input.nextLine();
+            return alternate();
+        }
     }
 
     /**

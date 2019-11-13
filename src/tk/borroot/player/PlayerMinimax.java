@@ -11,7 +11,7 @@ import static tk.borroot.logic.Symbol.*;
 
 /**
  * This player plays by the minimax algorithm without a limit on the depth,
- * thus making a perfect player.
+ * thus making a perfect player. It also makes use of alpha beta pruning.
  *
  * @author Bram Pulles
  */
@@ -48,7 +48,7 @@ public class PlayerMinimax extends Player {
     }
 
     /**
-     * The minimax algorithm.
+     * The minimax algorithm with alpha beta pruning.
      *
      * @param board     the board to be valued
      * @param maxplayer if true otherwise minimizing player

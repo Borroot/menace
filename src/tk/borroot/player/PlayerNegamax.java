@@ -12,8 +12,9 @@ import static tk.borroot.logic.Symbol.*;
 
 /**
  * This player plays by the negamax algorithm without a limit on the depth,
- * thus making a perfect player. The negamax algorithm is logically exactly the
- * same as the minimax algorithm, but the code is a lot more compact.
+ * thus making a perfect player. It also makes use of alpha beta pruning.
+ * The negamax algorithm is logically exactly the same as the minimax
+ * algorithm, but the code is a lot more compact.
  *
  * @author Bram Pulles
  */
@@ -50,7 +51,7 @@ public class PlayerNegamax extends Player {
     }
 
     /**
-     * The negamax algorithm.
+     * The negamax algorithm with alpha beta pruning.
      *
      * @param board the board to be valued
      * @param color 1 for the max player and -1 for the min player

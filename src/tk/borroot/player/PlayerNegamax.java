@@ -12,7 +12,8 @@ import static tk.borroot.logic.Symbol.*;
 
 /**
  * This player plays by the negamax algorithm without a limit on the depth,
- * thus making a perfect player.
+ * thus making a perfect player. The negamax algorithm is logically exactly the
+ * same as the minimax algorithm, but the code is a lot more compact.
  *
  * @author Bram Pulles
  */
@@ -42,7 +43,7 @@ public class PlayerNegamax extends Player {
      */
     private int heuristic(Board board) {
         if (Logic.won(board) != null) {
-            return (Logic.won(board) == this.getSymbol())? 1 : -1;
+            return (Logic.won(board) == this.getSymbol()) ? 1 : -1;
         } else {
             return 0;
         }
@@ -55,20 +56,25 @@ public class PlayerNegamax extends Player {
      * @param color 1 for the max player and -1 for the min player
      * @return the value of the board for the player
      */
-    private int negamax(Board board, int color) {
+    private int negamaxAlphaBeta(Board board, int alpha, int beta, int color) {
         // base case
         if (board.isFull() || Logic.won(board) != null) {
             return color * heuristic(board);
         }
         // recursive cases
         Vector<Integer> moves = validMoves(board);
-		int value = Integer.MIN_VALUE;
-		for (Integer move : moves) {
-			board.set(move, ((color == 1)? this.getSymbol() : (this.getSymbol() == CROSS)? CIRCLE : CROSS));
-			value = max(value, -negamax(board, -color));
-			board.set(move, EMPTY);
-		}
-		return value;
+        int value = Integer.MIN_VALUE;
+        for (Integer move : moves) {
+            board.set(move, ((color == 1) ? this.getSymbol() : (this.getSymbol() == CROSS) ? CIRCLE : CROSS));
+            value = max(value, -negamaxAlphaBeta(board, -beta, -alpha, -color));
+            board.set(move, EMPTY);
+            // alpha beta pruning
+            alpha = max(alpha, value);
+            if (alpha >= beta) {
+                break;
+            }
+        }
+        return value;
     }
 
     @Override
@@ -80,7 +86,7 @@ public class PlayerNegamax extends Player {
         Vector<Integer> moves = validMoves(board);
         for (Integer move : moves) {
             board.set(move, this.getSymbol());
-            int value = -negamax(board, -1);
+            int value = -negamaxAlphaBeta(board, Integer.MIN_VALUE + 1, Integer.MAX_VALUE, -1);
             board.set(move, EMPTY);
 
             // update the best moves

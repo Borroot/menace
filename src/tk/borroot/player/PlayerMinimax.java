@@ -54,7 +54,7 @@ public class PlayerMinimax extends Player {
      * @param maxplayer if true otherwise minimizing player
      * @return the value of the board for the player
      */
-    private int minmax(Board board, boolean maxplayer) {
+    private int minimaxAlphaBeta(Board board, int alpha, int beta, boolean maxplayer) {
         // base case
         if (board.isFull() || Logic.won(board) != null) {
             return heuristic(board);
@@ -65,16 +65,26 @@ public class PlayerMinimax extends Player {
             int value = Integer.MIN_VALUE;
             for (Integer move : moves) {
                 board.set(move, this.getSymbol());
-                value = max(value, minmax(board, false));
+                value = max(value, minimaxAlphaBeta(board, alpha, beta, false));
                 board.set(move, EMPTY);
+                // alpha beta pruning
+                alpha = max(alpha, value);
+                if (alpha >= beta){
+                    break;
+                }
             }
             return value;
         } else { // min player
             int value = Integer.MAX_VALUE;
             for (Integer move : moves) {
                 board.set(move, ((this.getSymbol() == CROSS) ? CIRCLE : CROSS));
-                value = min(value, minmax(board, true));
+                value = min(value, minimaxAlphaBeta(board, alpha, beta, true));
                 board.set(move, EMPTY);
+                // alpha beta pruning
+                beta = min(beta, value);
+                if (alpha >= beta) {
+                    break;
+                }
             }
             return value;
         }
@@ -89,7 +99,7 @@ public class PlayerMinimax extends Player {
         Vector<Integer> moves = validMoves(board);
         for (Integer move : moves) {
             board.set(move, this.getSymbol());
-            int value = minmax(board, false);
+            int value = minimaxAlphaBeta(board, Integer.MIN_VALUE, Integer.MAX_VALUE, false);
             board.set(move, EMPTY);
 
             // update the best moves

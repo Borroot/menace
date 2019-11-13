@@ -12,6 +12,12 @@ public class Logic {
     private static final int N = Board.N;
 
     /**
+     * This class is not supposed to be instantiated.
+     */
+    private Logic () {
+    }
+
+    /**
      * Check if the board is won.
      *
      * @param board to be checked if in a winning state

@@ -35,4 +35,9 @@ public class PlayerRandom extends Player {
         Vector<Integer> moves = validMoves(board);
         return moves.get(new Random().nextInt(moves.size()));
     }
+
+    @Override
+    public void learn(Player winner) {
+        // no reinforcement learning
+    }
 }

@@ -36,6 +36,11 @@ public class GameController {
             // Every new round another player will start, if alternate is true.
             Player winner = play(players, (ALTERNATE)? players[i % players.length] : players[0]);
 
+            // Let the players learn!
+            for (Player player : players) {
+                player.learn(winner);
+            }
+
             // Process the result.
             if (winner == null) {
                 results[2]++;

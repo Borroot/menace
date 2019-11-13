@@ -58,18 +58,19 @@ public class PlayerNegamax extends Player {
      * @return the value of the board for the player
      */
     private int negamaxAlphaBeta(Board board, int alpha, int beta, int color) {
-        // base case
         if (board.isFull() || Logic.won(board) != null) {
             return color * heuristic(board);
         }
-        // recursive cases
+
         Vector<Integer> moves = validMoves(board);
         int value = Integer.MIN_VALUE;
         for (Integer move : moves) {
+            // Make the move and do the depth first search.
             board.set(move, ((color == 1) ? this.getSymbol() : (this.getSymbol() == CROSS) ? CIRCLE : CROSS));
             value = max(value, -negamaxAlphaBeta(board, -beta, -alpha, -color));
             board.set(move, EMPTY);
-            // alpha beta pruning
+
+            // Do some alpha beta pruning.
             alpha = max(alpha, value);
             if (alpha >= beta) {
                 break;
@@ -83,14 +84,15 @@ public class PlayerNegamax extends Player {
         int max = Integer.MIN_VALUE;
         Vector<Integer> bestmoves = new Vector<>();
 
-        // try all the possible moves and take the best one
+        // Try all the possible moves and take one of the best ones.
         Vector<Integer> moves = validMoves(board);
         for (Integer move : moves) {
+            // Make the move and get the value of how good the move is.
             board.set(move, this.getSymbol());
             int value = -negamaxAlphaBeta(board, Integer.MIN_VALUE + 1, Integer.MAX_VALUE, -1);
             board.set(move, EMPTY);
 
-            // update the best moves
+            // Update the best moves.
             if (value > max) {
                 max = value;
                 bestmoves.clear();
@@ -99,6 +101,13 @@ public class PlayerNegamax extends Player {
                 bestmoves.add(move);
             }
         }
+
+        // Choose a random move from all the equally best moves.
         return bestmoves.get(new Random().nextInt(bestmoves.size()));
+    }
+
+    @Override
+    public void learn(Player winner) {
+        // no reinforcement learning
     }
 }

@@ -8,4 +8,9 @@ public class PlayerMenace extends Player {
     public int move(Board board) {
         return 0;
     }
+
+    @Override
+    public void learn(Player winner) {
+
+    }
 }

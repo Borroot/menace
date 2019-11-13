@@ -55,19 +55,20 @@ public class PlayerMinimax extends Player {
      * @return the value of the board for the player
      */
     private int minimaxAlphaBeta(Board board, int alpha, int beta, boolean maxplayer) {
-        // base case
         if (board.isFull() || Logic.won(board) != null) {
             return heuristic(board);
         }
-        // recursive cases
+
         Vector<Integer> moves = validMoves(board);
         if (maxplayer) {
             int value = Integer.MIN_VALUE;
             for (Integer move : moves) {
+            	// Make the move and do the depth first search.
                 board.set(move, this.getSymbol());
                 value = max(value, minimaxAlphaBeta(board, alpha, beta, false));
                 board.set(move, EMPTY);
-                // alpha beta pruning
+
+                // Do some alpha beta pruning.
                 alpha = max(alpha, value);
                 if (alpha >= beta){
                     break;
@@ -77,10 +78,12 @@ public class PlayerMinimax extends Player {
         } else { // min player
             int value = Integer.MAX_VALUE;
             for (Integer move : moves) {
+                // Make the move and do the depth first search.
                 board.set(move, ((this.getSymbol() == CROSS) ? CIRCLE : CROSS));
                 value = min(value, minimaxAlphaBeta(board, alpha, beta, true));
                 board.set(move, EMPTY);
-                // alpha beta pruning
+
+                // Do some alpha beta pruning.
                 beta = min(beta, value);
                 if (alpha >= beta) {
                     break;
@@ -95,14 +98,15 @@ public class PlayerMinimax extends Player {
         int max = Integer.MIN_VALUE;
         Vector<Integer> bestmoves = new Vector<>();
 
-        // try all the possible moves and take the best one
+        // Try all the possible moves and take the best one.
         Vector<Integer> moves = validMoves(board);
         for (Integer move : moves) {
+        	// Make the move and get the value of how good the move is.
             board.set(move, this.getSymbol());
             int value = minimaxAlphaBeta(board, Integer.MIN_VALUE, Integer.MAX_VALUE, false);
             board.set(move, EMPTY);
 
-            // update the best moves
+            // Update the best moves.
             if (value > max) {
                 max = value;
                 bestmoves.clear();
@@ -111,6 +115,13 @@ public class PlayerMinimax extends Player {
                 bestmoves.add(move);
             }
         }
+
+        // Choose a random move from all the equally best moves.
         return bestmoves.get(new Random().nextInt(bestmoves.size()));
+    }
+
+    @Override
+    public void learn(Player winner) {
+        // no reinforcement learning
     }
 }

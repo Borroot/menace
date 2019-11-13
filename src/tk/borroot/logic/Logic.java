@@ -14,6 +14,7 @@ public class Logic {
     /**
      * Check if the board is won.
      *
+     * @param board to be checked if in a winning state
      * @return the symbol which won or null if nobody won
      */
     public static Symbol won(Board board) {

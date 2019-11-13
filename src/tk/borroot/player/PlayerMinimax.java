@@ -34,7 +34,7 @@ public class PlayerMinimax extends Player {
     }
 
     /**
-     * Give a value to the current state of the board.
+     * Give a value to the current state of the board from the perspective of player A.
      *
      * @param board which is given a value by the heuristic of winning
      * @return 1 if this player won, -1 if the other player won and 0 if its a tie

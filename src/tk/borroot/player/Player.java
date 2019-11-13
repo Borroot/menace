@@ -21,7 +21,7 @@ public abstract class Player {
     /**
      * This function will be asked to players when they can make a move.
      *
-     * @param board
+     * @param board to be made a move on
      * @return a value in [0..8] which corresponds to the move
      */
     public abstract int move(Board board);
@@ -29,7 +29,7 @@ public abstract class Player {
     /**
      * Set the symbol of this player.
      *
-     * @param symbol
+     * @param symbol new symbol
      */
     public void setSymbol(Symbol symbol) {
         this.symbol = symbol;

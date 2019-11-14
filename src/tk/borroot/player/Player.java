@@ -3,8 +3,6 @@ package tk.borroot.player;
 import tk.borroot.logic.Board;
 import tk.borroot.logic.Symbol;
 
-import static tk.borroot.logic.Symbol.CROSS;
-
 /**
  * This class represents a player with a symbol.
  * All other players implement this class and the move function.

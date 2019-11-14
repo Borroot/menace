@@ -40,6 +40,10 @@ public class PlayerHuman extends Player {
     @Override
     public void learn(Player winner) {
         // no reinforcement learning but print the winner
-        System.out.println("Player " + winner + " won!");
+        if (winner != null) {
+            System.out.println("Player " + winner + " won!");
+        } else {
+            System.out.println("It's a tie!");
+        }
     }
 }

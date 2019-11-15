@@ -51,6 +51,14 @@ public abstract class Player {
 	}
 
 	@Override
+	public boolean equals(Object o) {
+		if (o instanceof Player) {
+			return symbol == ((Player) o).getSymbol();
+		}
+		return false;
+	}
+
+	@Override
 	public String toString() {
 		return symbol.toString();
 	}

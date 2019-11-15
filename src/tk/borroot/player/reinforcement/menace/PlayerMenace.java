@@ -16,7 +16,7 @@ public class PlayerMenace extends Player {
 	private Scanner input = new Scanner(System.in);
 
 	private final int INIT_BEATS;
-	private final int PUNISHMENT = 1;
+	private final int PUNISHMENT = -1;
 	private final int REWARD_TIE = 1;
 	private final int REWARD_WON = 3;
 
@@ -38,7 +38,7 @@ public class PlayerMenace extends Player {
 		INIT_BEATS = ask("Enter the initial amount of beats per move per box: ");
 		// ask for the punishment value and the reward value
 
-		Board board = new Board();
+		Board board = new Board(CROSS);
 		searchStates(board, true);
 	}
 
@@ -66,7 +66,7 @@ public class PlayerMenace extends Player {
 	 * manner. We also check for all the possible transformations
 	 * of the board and only add the unique ones to the states hashmap.
 	 *
-	 * @param board to be further explored
+	 * @param board  to be further explored
 	 * @param onturn true means 'X', false means 'O'
 	 */
 	private void searchStates(Board board, boolean onturn) {
@@ -103,8 +103,9 @@ public class PlayerMenace extends Player {
 
 	@Override
 	public int move(Board board) {
+		Board swapped = (board.getFirstMove() == CROSS) ? board.clone() : Transform.swapAll(board);
 		for (Transform transform : Transform.values()) {
-			Board trans = Transform.apply(board, transform);
+			Board trans = Transform.apply(swapped, transform);
 			if (states.containsKey(trans)) {
 				Matchbox matchbox = states.get(trans);
 				int transMove = matchbox.move();
@@ -117,7 +118,16 @@ public class PlayerMenace extends Player {
 
 	@Override
 	public void learn(Player winner) {
+		int learn;
+		if (winner == null) {
+			learn = REWARD_TIE;
+		} else {
+			learn = (this.equals(winner) ? REWARD_WON : PUNISHMENT);
+		}
 
+		for (Pair<Matchbox, Integer> pair : moved) {
+			pair.x.remove(pair.y, learn);
+		}
 		moved.clear();
 	}
 }

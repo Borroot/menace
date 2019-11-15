@@ -15,11 +15,14 @@ public class Board {
 	public static final int N = 3;
 	private Symbol[] board = new Symbol[N * N];
 
+	private Symbol firstMove;
+
 	/**
 	 * Create a board and initialize all the cells to empty.
 	 */
-	public Board() {
+	public Board(Symbol firstMove) {
 		Arrays.fill(board, EMPTY);
+		this.firstMove = firstMove;
 	}
 
 	/**
@@ -40,6 +43,15 @@ public class Board {
 	 */
 	public Symbol get(final int cell) {
 		return board[cell];
+	}
+
+	/**
+	 * Get the symbol of the first move.
+	 *
+	 * @return the symbol of the first move
+	 */
+	public Symbol getFirstMove() {
+		return firstMove;
 	}
 
 	/**
@@ -82,7 +94,7 @@ public class Board {
 
 	@Override
 	public Board clone() {
-		Board board = new Board();
+		Board board = new Board(firstMove);
 		for (int i = 0; i < this.board.length; i++) {
 			board.set(i, this.board[i]);
 		}

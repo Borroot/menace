@@ -64,7 +64,7 @@ public class GameController {
 	 * @return the player who has one or null if it is a tie.
 	 */
 	private Player play(Player[] players, Player onturn) {
-		Board board = new Board();
+		Board board = new Board(onturn.getSymbol());
 
 		// Start the game loop and continue until a win or tie.
 		do {

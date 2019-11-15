@@ -15,17 +15,24 @@ public enum Transform {
 	MAIN_DIAGONAL(new int[]{0, 3, 6, 1, 4, 7, 2, 5, 8}), // main diagonal is top-left -> bottom-right
 	OTHER_DIAGONAL(new int[]{8, 5, 2, 7, 4, 1, 6, 3, 0}); // other diagonal is top-right -> bottom-left
 
-	// 0 1 2
-	// 3 4 5
-	// 6 7 8
-
 	private int[] transform;
 	private int[] inverse;
 
+	/**
+	 * Create a transform object where the inverse is the same as the transform.
+	 *
+	 * @param transform a matrix with on each index the new index
+	 */
 	Transform(int[] transform) {
 		this(transform, transform);
 	}
 
+	/**
+	 * Create a transform object where the inverse and the transform matrix are different.
+	 *
+	 * @param transform a matrix with on each index the new index
+	 * @param inverse   a matrix with on each index the new index, the inverse of transform
+	 */
 	Transform(int[] transform, int[] inverse) {
 		this.transform = transform;
 		this.inverse = inverse;

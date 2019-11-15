@@ -2,3 +2,7 @@ tk.borroot
 tk.borroot.controller
 tk.borroot.logic
 tk.borroot.player
+tk.borroot.player.perfect
+tk.borroot.player.reinforcement
+tk.borroot.player.reinforcement.menace
+tk.borroot.player.stupid

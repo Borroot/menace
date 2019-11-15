@@ -69,7 +69,9 @@ public class GameController {
 	 * Play one round, when a player plays -1 this is a forfeit.
 	 *
 	 * @param players an array with 2 players
+	 * @param onturn  the player whose turn it is
 	 * @return the player who has one or null if it is a tie.
+	 * @throws DiedException when one of the players died
 	 */
 	private Player play(Player[] players, Player onturn) throws DiedException {
 		Board board = new Board();

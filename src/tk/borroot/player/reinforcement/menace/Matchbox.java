@@ -38,6 +38,7 @@ public class Matchbox {
 	 * getting chosen in proportion to the amount of beats.
 	 *
 	 * @return a random move or a MoveException if no move can be made
+	 * @throws MoveException if the matchbox is empty and thus cannot make a move anymore
 	 */
 	public int move() throws MoveException {
 		int total = 0;

@@ -38,6 +38,8 @@ public class PlayerNegamax extends Player {
 	 * The negamax algorithm with alpha beta pruning.
 	 *
 	 * @param board the board to be valued
+	 * @param alpha minimum score the maximizing player is assured of
+	 * @param beta  maximum score the minimizing player is assured of
 	 * @param color 1 for the max player and -1 for the min player
 	 * @return the value of the board for the player
 	 */

@@ -37,6 +37,8 @@ public class PlayerMinimax extends Player {
 	 * The minimax algorithm with alpha beta pruning.
 	 *
 	 * @param board     the board to be valued
+	 * @param alpha     minimum score the maximizing player is assured of
+	 * @param beta      maximum score the minimizing player is assured of
 	 * @param maxplayer if true otherwise minimizing player
 	 * @return the value of the board for the player
 	 */
@@ -93,7 +95,8 @@ public class PlayerMinimax extends Player {
 			board.set(move, EMPTY);
 
 			// Update the best moves.
-			if (value > max) { max = value;
+			if (value > max) {
+				max = value;
 				bestmoves.clear();
 				bestmoves.add(move);
 			} else if (value == max) {

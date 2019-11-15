@@ -23,6 +23,8 @@ public abstract class Player {
 	 *
 	 * @param board to be made a move on
 	 * @return a value in [0..8] which corresponds to the move
+	 * @throws MoveException if the player cannot make a move anymore
+	 * @throws DiedException if the player died
 	 */
 	public abstract int move(Board board) throws MoveException, DiedException;
 

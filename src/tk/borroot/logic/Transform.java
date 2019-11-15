@@ -2,22 +2,33 @@ package tk.borroot.logic;
 
 /**
  * This class can be used to get all the possible transformation on
- * the board and therefore get all the symmetries of the board.
+ * the board and therefore to get all the symmetries of the board.
  *
  * @author Bram Pulles
  */
-public class Transform {
+public enum Transform {
+	HORIZONTAL(new int[]{6, 7, 8, 3, 4, 5, 0, 1, 2}),
+	VERTICAL(new int[]{2, 1, 0, 5, 4, 3, 8, 7, 6}),
+	ROTATE_ONCE(new int[]{2, 5, 8, 1, 4, 7, 0, 3, 6}, new int[]{6, 3, 0, 7, 4, 1, 8, 5, 2}),
+	ROTATE_TWICE(new int[]{8, 7, 6, 5, 4, 3, 2, 1, 0}),
+	ROTATE_THRICE(new int[]{6, 3, 0, 7, 4, 1, 8, 5, 2}, new int[]{2, 5, 8, 1, 4, 7, 0, 3, 6}),
+	MAIN_DIAGONAL(new int[]{0, 3, 6, 1, 4, 7, 2, 5, 8}), // main diagonal is top-left -> bottom-right
+	OTHER_DIAGONAL(new int[]{8, 5, 2, 7, 4, 1, 6, 3, 0}); // other diagonal is top-right -> bottom-left
 
-	public static final int[] HOR = {6, 7, 8, 3, 4, 5, 0, 1, 2}; // horizontal
-	public static final int[] VER = {2, 1, 0, 5, 4, 3, 8, 7, 6}; // vertical
-	public static final int[] ROT = {3, 0, 1, 6, 4, 2, 7, 8, 5}; // counter clockwise
-	public static final int[] MDIA = {0, 3, 6, 1, 4, 7, 2, 5, 8}; // main diagonal is top-left -> bottom-right
-	public static final int[] ODIA = {8, 5, 2, 7, 4, 1, 6, 3, 0}; // other diagonal is top-right -> bottom-left
+	// 0 1 2
+	// 3 4 5
+	// 6 7 8
 
-	/**
-	 * This class is not supposed to be instantiated.
-	 */
-	private Transform() {
+	private int[] transform;
+	private int[] inverse;
+
+	Transform(int[] transform) {
+		this(transform, transform);
+	}
+
+	Transform(int[] transform, int[] inverse) {
+		this.transform = transform;
+		this.inverse = inverse;
 	}
 
 	/**
@@ -25,26 +36,11 @@ public class Transform {
 	 *
 	 * @param move      to be transformed
 	 * @param transform a matrix with on each index the new index
+	 * @param inverse   inverse the transformation
 	 * @return the transformed move
 	 */
-	public static int move(int move, int[] transform) {
-		return transform[move];
-	}
-
-	/**
-	 * Transform the move the specified amount of times and return
-	 * the transformed move.
-	 *
-	 * @param move      to be transformed
-	 * @param transform a matrix with on each index the new index
-	 * @param times     amount of times to apply the transformation
-	 * @return the transformed move
-	 */
-	public static int move(int move, int[] transform, int times) {
-		for (int i = 0; i < times; i++) {
-			move = transform[move];
-		}
-		return move;
+	public static int move(int move, Transform transform, boolean inverse) {
+		return (inverse) ? transform.inverse[move] : transform.transform[move];
 	}
 
 	/**
@@ -52,34 +48,14 @@ public class Transform {
 	 *
 	 * @param board     to be transformed
 	 * @param transform a matrix with on each index the new index
+	 * @param inverse   inverse the transformation
 	 * @return the transformed board
 	 */
-	public static Board apply(Board board, int[] transform) {
-		assert (board.size() == transform.length);
-
+	public static Board apply(Board board, Transform transform, boolean inverse) {
 		Board trans = new Board();
 		for (int i = 0; i < board.size(); i++) {
-			trans.set(transform[i], board.get(i));
-		}
-		return trans;
-	}
-
-
-	/**
-	 * Apply a given transformation matrix on the board the
-	 * given amount of times.
-	 *
-	 * @param board     to be transformed
-	 * @param transform a matrix with on each index the new index
-	 * @param times     amount of times to apply the transform
-	 * @return the transformed board
-	 */
-	public static Board apply(Board board, int[] transform, int times) {
-		assert (board.size() == transform.length);
-
-		Board trans = board.clone();
-		for (int i = 0; i < times; i++) {
-			trans = apply(trans, transform);
+			int index = (inverse) ? transform.inverse[i] : transform.transform[i];
+			trans.set(index, board.get(i));
 		}
 		return trans;
 	}

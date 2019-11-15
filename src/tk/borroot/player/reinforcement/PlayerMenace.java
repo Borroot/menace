@@ -3,9 +3,12 @@ package tk.borroot.player.reinforcement;
 import tk.borroot.logic.Board;
 import tk.borroot.player.Player;
 
+import java.util.Scanner;
 import java.util.Vector;
 
 public class PlayerMenace extends Player {
+
+	private Scanner input = new Scanner(System.in);
 
 	/**
 	 * This variable represents all the moves menace made during the last game.
@@ -14,8 +17,9 @@ public class PlayerMenace extends Player {
 	private Vector<Integer> moved = new Vector<>();
 
 	public PlayerMenace() {
-		// ask for initial amount of beats per move per box
+		int beats = ask("Enter the initial amount of beats per move per box: ");
 		// ask for the punishment value and the reward value
+
 
 		// generate all the unique boxes
 		//   run dfs with the hashmap
@@ -24,6 +28,25 @@ public class PlayerMenace extends Player {
 		//      else add it to the hashmap together with the appropriate box and continue dfs
 	}
 
+	private void init() {
+
+	}
+
+	/**
+	 * Ask for an integer from the player with the given question.
+	 *
+	 * @param question to be asked to the player
+	 * @return the integer chosen by the player
+	 */
+	private int ask(String question) {
+		System.out.print(question);
+		try {
+			return input.nextInt();
+		} catch (Exception e) {
+			input.nextLine();
+			return ask(question);
+		}
+	}
 	@Override
 	public int move(Board board) {
 		// search for the corresponding box in a hashmap where the board are keys and the boxes are values

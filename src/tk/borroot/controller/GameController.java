@@ -39,6 +39,7 @@ public class GameController {
 
 		int[] results = {0, 0, 0}; // wins player 1, wins player 2, ties
 		for (int i = 0; i < ROUNDS || ROUNDS <= -1; i++) {
+			System.out.println("Round: " + i);
 			// Every new round another player will start, if alternate is true.
 			Player winner = play(players, (ALTERNATE) ? players[i % players.length] : players[0]);
 
@@ -58,7 +59,7 @@ public class GameController {
 	}
 
 	/**
-	 * Play one round.
+	 * Play one round, when a player plays -1 this is a forfeit.
 	 *
 	 * @param players an array with 2 players
 	 * @return the player who has one or null if it is a tie.
@@ -72,6 +73,11 @@ public class GameController {
 			int move;
 			do {
 				move = onturn.move(board);
+
+				// move -1 equals a forfeit
+				if (move == -1) {
+					return nextTurn(onturn, players);
+				}
 			} while (board.get(move) != EMPTY);
 
 			// Make the move and change the turn.

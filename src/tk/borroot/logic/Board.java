@@ -115,11 +115,11 @@ public class Board {
 		}
 	}
 
-	/**
-	 * Print the board.
-	 *
-	 * @return a string representation of the board.
-	 */
+	@Override
+	public int hashCode() {
+		return Arrays.hashCode(board);
+	}
+
 	@Override
 	public String toString() {
 		StringBuilder result = new StringBuilder();

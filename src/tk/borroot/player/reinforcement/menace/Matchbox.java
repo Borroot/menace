@@ -1,5 +1,6 @@
 package tk.borroot.player.reinforcement.menace;
 
+import java.util.Arrays;
 import java.util.Random;
 import java.util.Vector;
 
@@ -44,39 +45,34 @@ public class Matchbox {
 			total += move;
 		}
 
-		int rand = 1 + new Random().nextInt(total - 1);
-		for (int i = 0; i < moves.length; i++) {
-			if (rand <= moves[i]) {
-				return i;
+		if (total > 0) {
+			int rand = 1 + new Random().nextInt(total);
+			for (int i = 0; i < moves.length; i++) {
+				if (rand <= moves[i]) {
+					return i;
+				}
+				rand -= moves[i];
 			}
-			rand -= moves[i];
 		}
 		return -1;
 	}
 
 	/**
-	 * Add the specified amount of beats to the specified move.
+	 * Add/remove the specified amount of beats to the specified move.
 	 *
-	 * @param move  to add the beats to
-	 * @param beats to be added to the move
+	 * @param move  to add/remove the beats to
+	 * @param beats to be added/removed to the move
 	 */
 	public void add(int move, int beats) {
-		moves[move] += beats;
-	}
-
-	/**
-	 * Remove the specified amount of beats from the specified move.
-	 * The amount of beats for the specified move will never be smaller than zero.
-	 *
-	 * @param move  to remove the beats from
-	 * @param beats to be removed from the move
-	 */
-	public void remove(int move, int beats) {
-		if (moves[move] - beats < 0) {
+		if (moves[move] + beats < 0) {
 			moves[move] = 0;
 		} else {
-			moves[move] -= beats;
+			moves[move] += beats;
 		}
 	}
 
+	@Override
+	public String toString() {
+		return Arrays.toString(moves);
+	}
 }

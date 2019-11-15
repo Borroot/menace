@@ -56,7 +56,7 @@ public class PlayerMenace extends Player {
 				return true;
 			}
 		}
-		states.put(board, new Matchbox(board.moves(), INIT_BEATS));
+		states.put(board.clone(), new Matchbox(board.moves(), INIT_BEATS));
 		return false;
 	}
 
@@ -76,8 +76,8 @@ public class PlayerMenace extends Player {
 		}
 
 		Vector<Integer> moves = board.moves();
-		for (Integer move : moves) {
-			if (!processState(board)) {
+		if (!processState(board)) {
+			for (Integer move : moves) {
 				board.set(move, (onturn) ? CROSS : CIRCLE);
 				searchStates(board, !onturn);
 				board.set(move, EMPTY);
@@ -103,12 +103,20 @@ public class PlayerMenace extends Player {
 
 	@Override
 	public int move(Board board) {
+		if(board.equals(new Board(CROSS)) && states.get(board).move() == -1) {
+			System.out.println("MENACE DIED!");
+		}
+
 		Board swapped = (board.getFirstMove() == CROSS) ? board.clone() : Transform.swapAll(board);
 		for (Transform transform : Transform.values()) {
 			Board trans = Transform.apply(swapped, transform);
 			if (states.containsKey(trans)) {
 				Matchbox matchbox = states.get(trans);
 				int transMove = matchbox.move();
+				if (transMove == -1) { // forfeit
+					System.out.println(board);
+					return -1;
+				}
 				moved.add(new Pair<>(matchbox, transMove));
 				return Transform.move(transMove, transform, true);
 			}
@@ -118,15 +126,9 @@ public class PlayerMenace extends Player {
 
 	@Override
 	public void learn(Player winner) {
-		int learn;
-		if (winner == null) {
-			learn = REWARD_TIE;
-		} else {
-			learn = (this.equals(winner) ? REWARD_WON : PUNISHMENT);
-		}
-
+		int learn = (winner == null) ? REWARD_TIE : (this.equals(winner) ? REWARD_WON : PUNISHMENT);
 		for (Pair<Matchbox, Integer> pair : moved) {
-			pair.x.remove(pair.y, learn);
+			pair.x.add(pair.y, learn);
 		}
 		moved.clear();
 	}

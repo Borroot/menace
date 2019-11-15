@@ -1,5 +1,7 @@
 package tk.borroot.logic;
 
+import static tk.borroot.logic.Symbol.*;
+
 /**
  * This class can be used to get all the possible transformation on
  * the board and therefore to get all the symmetries of the board.
@@ -44,11 +46,33 @@ public enum Transform {
 	 *
 	 * @param move      to be transformed
 	 * @param transform a matrix with on each index the new index
+	 * @return the transformed move
+	 */
+	public static int move(int move, Transform transform) {
+		return move(move, transform, false);
+	}
+
+	/**
+	 * Transform the move and return the transformed move.
+	 *
+	 * @param move      to be transformed
+	 * @param transform a matrix with on each index the new index
 	 * @param inverse   inverse the transformation
 	 * @return the transformed move
 	 */
 	public static int move(int move, Transform transform, boolean inverse) {
 		return (inverse) ? transform.inverse[move] : transform.transform[move];
+	}
+
+	/**
+	 * Apply a given transformation on the board.
+	 *
+	 * @param board     to be transformed
+	 * @param transform a matrix with on each index the new index
+	 * @return the transformed board
+	 */
+	public static Board apply(Board board, Transform transform) {
+		return apply(board, transform, false);
 	}
 
 	/**
@@ -66,5 +90,29 @@ public enum Transform {
 			trans.set(index, board.get(i));
 		}
 		return trans;
+	}
+
+	/**
+	 * Swap all the 'X' with 'O' and the other way around.
+	 *
+	 * @param board to be swapped
+	 * @return the board with swapped values
+	 */
+	public static Board swapAll(Board board) {
+		Board swapped = new Board();
+		for (int i = 0; i < board.size(); i++) {
+			Symbol symbol = board.get(i);
+			switch (symbol) {
+				case CROSS:
+					swapped.set(i, CIRCLE);
+					break;
+				case CIRCLE:
+					swapped.set(i, CROSS);
+					break;
+				default:
+					swapped.set(i, EMPTY);
+			}
+		}
+		return swapped;
 	}
 }

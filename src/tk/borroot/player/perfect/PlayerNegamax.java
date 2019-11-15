@@ -21,22 +21,6 @@ import static tk.borroot.logic.Symbol.*;
 public class PlayerNegamax extends Player {
 
 	/**
-	 * Get all the valid moves aka empty cells on the board.
-	 *
-	 * @param board to be checked on empty cells
-	 * @return a vector with all the empty cells on the board
-	 */
-	private Vector<Integer> validMoves(Board board) {
-		Vector<Integer> moves = new Vector<>();
-		for (int i = 0; i < board.size(); i++) {
-			if (board.get(i) == EMPTY) {
-				moves.add(i);
-			}
-		}
-		return moves;
-	}
-
-	/**
 	 * Give a value to the current state of the board from the perspective of player A.
 	 *
 	 * @param board which is given a value by the heuristic of winning
@@ -62,7 +46,7 @@ public class PlayerNegamax extends Player {
 			return color * heuristic(board);
 		}
 
-		Vector<Integer> moves = validMoves(board);
+		Vector<Integer> moves = board.moves();
 		int value = Integer.MIN_VALUE;
 		for (Integer move : moves) {
 			// Make the move and do the depth first search.
@@ -85,7 +69,7 @@ public class PlayerNegamax extends Player {
 		Vector<Integer> bestmoves = new Vector<>();
 
 		// Try all the possible moves and take one of the best ones.
-		Vector<Integer> moves = validMoves(board);
+		Vector<Integer> moves = board.moves();
 		for (Integer move : moves) {
 			// Make the move and get the value of how good the move is.
 			board.set(move, this.getSymbol());

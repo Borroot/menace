@@ -1,4 +1,4 @@
-package tk.borroot.player.reinforcement;
+package tk.borroot.player.reinforcement.menace;
 
 import java.util.Random;
 import java.util.Vector;
@@ -7,7 +7,7 @@ import java.util.Vector;
  * This class represents a matchbox. In this matchbox
  * there are beats for every valid move. When a move is
  * to be taken a random beat will be taken out.
- *
+ * <p>
  * After the move has been made and the game is finished
  * the beat will either be removed or move beats will be
  * added to make menace learn with reinforcement.
@@ -22,12 +22,12 @@ public class Matchbox {
 	 * Create a new matchbox with the specified moves and
 	 * initialize the amount of beats per move accordingly.
 	 *
-	 * @param moves valid moves
-	 * @param beats initial amount of beats per move
+	 * @param moves      valid moves
+	 * @param INIT_BEATS initial amount of beats per move
 	 */
-	public Matchbox(Vector<Integer> moves, int beats) {
+	Matchbox(Vector<Integer> moves, final int INIT_BEATS) {
 		for (Integer move : moves) {
-			this.moves[move] += beats;
+			this.moves[move] += INIT_BEATS;
 		}
 	}
 

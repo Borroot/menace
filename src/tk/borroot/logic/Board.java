@@ -1,5 +1,8 @@
 package tk.borroot.logic;
 
+import java.util.Arrays;
+import java.util.Vector;
+
 import static tk.borroot.logic.Symbol.EMPTY;
 
 /**
@@ -16,9 +19,7 @@ public class Board {
 	 * Create a board and initialize all the cells to empty.
 	 */
 	public Board() {
-		for (int i = 0; i < board.length; i++) {
-			board[i] = EMPTY;
-		}
+		Arrays.fill(board, EMPTY);
 	}
 
 	/**
@@ -47,12 +48,27 @@ public class Board {
 	 * @return if the board is full
 	 */
 	public boolean isFull() {
-		for (int i = 0; i < board.length; i++) {
-			if (board[i] == EMPTY) {
+		for (Symbol symbol : board) {
+			if (symbol == EMPTY) {
 				return false;
 			}
 		}
 		return true;
+	}
+
+	/**
+	 * Get all the valid moves aka empty cells on the board.
+	 *
+	 * @return a vector with all the empty cells on the board
+	 */
+	public Vector<Integer> moves() {
+		Vector<Integer> moves = new Vector<>();
+		for (int i = 0; i < board.length; i++) {
+			if (board[i] == EMPTY) {
+				moves.add(i);
+			}
+		}
+		return moves;
 	}
 
 	/**
@@ -73,6 +89,20 @@ public class Board {
 		return board;
 	}
 
+	@Override
+	public boolean equals(Object o) {
+		if (o instanceof Board) {
+			for (int i = 0; i < board.length; i++) {
+				if (board[i] != ((Board) o).get(i)) {
+					return false;
+				}
+			}
+			return true;
+		} else {
+			return false;
+		}
+	}
+
 	/**
 	 * Print the board.
 	 *
@@ -80,9 +110,9 @@ public class Board {
 	 */
 	@Override
 	public String toString() {
-		String result = "";
+		StringBuilder result = new StringBuilder();
 		for (int i = 0; i < board.length; i++) {
-			result += board[i].toString() + ((i % N != 2) ? "|" : "\n");
+			result.append(board[i].toString()).append((i % N != 2) ? "|" : "\n");
 		}
 		return result.substring(0, result.length() - 1);
 	}

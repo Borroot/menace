@@ -16,14 +16,22 @@ public class PlayerMenace extends Player {
 	public PlayerMenace() {
 		// ask for initial amount of beats per move per box
 		// ask for the punishment value and the reward value
+
 		// generate all the unique boxes
+		//   run dfs with the hashmap
+		//   for every board check all the transformations in the hashmap
+		//      if the board is in the hashmap then stop
+		//      else add it to the hashmap together with the appropriate box and continue dfs
 	}
 
 	@Override
 	public int move(Board board) {
-		// search for the corresponding box
-		// choose a random move from this box
-		// add this move to the moved vector
+		// search for the corresponding box in a hashmap where the board are keys and the boxes are values
+		//   search for all the transformations of the board
+
+		// choose a random move from this box and transform it back using the inverse
+
+		// add this move to the moved vector together with the board
 		// return the move
 		return 0;
 	}

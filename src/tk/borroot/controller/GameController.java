@@ -5,6 +5,8 @@ import tk.borroot.logic.Logic;
 import tk.borroot.player.Player;
 import tk.borroot.player.perfect.PlayerMinimax;
 import tk.borroot.player.perfect.PlayerNegamax;
+import tk.borroot.player.reinforcement.menace.DiedException;
+import tk.borroot.player.reinforcement.menace.MoveException;
 import tk.borroot.player.reinforcement.menace.PlayerMenace;
 import tk.borroot.player.reinforcement.PlayerQlearning;
 import tk.borroot.player.stupid.PlayerHuman;
@@ -39,9 +41,14 @@ public class GameController {
 
 		int[] results = {0, 0, 0}; // wins player 1, wins player 2, ties
 		for (int i = 0; i < ROUNDS || ROUNDS <= -1; i++) {
-			System.out.println("Round: " + i);
 			// Every new round another player will start, if alternate is true.
-			Player winner = play(players, (ALTERNATE) ? players[i % players.length] : players[0]);
+			Player winner = null;
+			try {
+				winner = play(players, (ALTERNATE) ? players[i % players.length] : players[0]);
+			} catch (DiedException e) {
+				System.out.println(e.getMessage());
+				break;
+			}
 
 			// Let the players learn!
 			for (Player player : players) {
@@ -64,18 +71,18 @@ public class GameController {
 	 * @param players an array with 2 players
 	 * @return the player who has one or null if it is a tie.
 	 */
-	private Player play(Player[] players, Player onturn) {
-		Board board = new Board(onturn.getSymbol());
+	private Player play(Player[] players, Player onturn) throws DiedException {
+		Board board = new Board();
 
 		// Start the game loop and continue until a win or tie.
 		do {
 			// Ask for a move until the player entered a valid move.
 			int move;
 			do {
-				move = onturn.move(board);
-
-				// move -1 equals a forfeit
-				if (move == -1) {
+				try {
+					move = onturn.move(board);
+				} catch (MoveException e) {
+					// no move could be made so it will forfeit
 					return nextTurn(onturn, players);
 				}
 			} while (board.get(move) != EMPTY);

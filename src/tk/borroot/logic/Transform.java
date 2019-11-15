@@ -84,7 +84,7 @@ public enum Transform {
 	 * @return the transformed board
 	 */
 	public static Board apply(Board board, Transform transform, boolean inverse) {
-		Board trans = new Board(board.getFirstMove());
+		Board trans = new Board();
 		for (int i = 0; i < board.size(); i++) {
 			int index = (inverse) ? transform.inverse[i] : transform.transform[i];
 			trans.set(index, board.get(i));
@@ -99,7 +99,7 @@ public enum Transform {
 	 * @return the board with swapped values
 	 */
 	public static Board swapAll(Board board) {
-		Board swapped = new Board(board.getFirstMove());
+		Board swapped = new Board();
 		for (int i = 0; i < board.size(); i++) {
 			Symbol symbol = board.get(i);
 			switch (symbol) {

@@ -37,9 +37,9 @@ public class Matchbox {
 	 * have more corresponding beats have a higher chance of
 	 * getting chosen in proportion to the amount of beats.
 	 *
-	 * @return a random move
+	 * @return a random move or a MoveException if no move can be made
 	 */
-	public int move() {
+	public int move() throws MoveException {
 		int total = 0;
 		for (int move : moves) {
 			total += move;
@@ -54,7 +54,7 @@ public class Matchbox {
 				rand -= moves[i];
 			}
 		}
-		return -1;
+		throw new MoveException("No move can be made from " + Arrays.toString(moves));
 	}
 
 	/**
@@ -69,6 +69,20 @@ public class Matchbox {
 		} else {
 			moves[move] += beats;
 		}
+	}
+
+	/**
+	 * Check if the matchbox is dead, aka there are no beats.
+	 *
+	 * @return if the matchbox is empty
+	 */
+	public boolean dead() {
+		for (int move : moves) {
+			if (move > 0) {
+				return false;
+			}
+		}
+		return true;
 	}
 
 	@Override

@@ -2,6 +2,8 @@ package tk.borroot.player;
 
 import tk.borroot.logic.Board;
 import tk.borroot.logic.Symbol;
+import tk.borroot.player.reinforcement.menace.DiedException;
+import tk.borroot.player.reinforcement.menace.MoveException;
 
 /**
  * This class represents a player with a symbol.
@@ -22,7 +24,7 @@ public abstract class Player {
 	 * @param board to be made a move on
 	 * @return a value in [0..8] which corresponds to the move
 	 */
-	public abstract int move(Board board);
+	public abstract int move(Board board) throws MoveException, DiedException;
 
 	/**
 	 * This function will be called at the end of each game. This function

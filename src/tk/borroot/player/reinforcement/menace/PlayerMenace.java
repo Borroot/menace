@@ -16,9 +16,6 @@ public class PlayerMenace extends Player {
 	private Scanner input = new Scanner(System.in);
 
 	private final int INIT_BEATS;
-	private final int PUNISHMENT = -1;
-	private final int REWARD_TIE = 1;
-	private final int REWARD_WON = 3;
 
 	/**
 	 * This variable represents all the moves menace made during the last game.
@@ -38,7 +35,7 @@ public class PlayerMenace extends Player {
 		INIT_BEATS = ask("Enter the initial amount of beats per move per box: ");
 		// ask for the punishment value and the reward value
 
-		Board board = new Board(CROSS);
+		Board board = new Board();
 		searchStates(board, true);
 	}
 
@@ -101,22 +98,57 @@ public class PlayerMenace extends Player {
 		}
 	}
 
+	/**
+	 * Check if this player started with this game.
+	 *
+	 * @param board the board to be checked
+	 * @return if this player started the game corresponding to this board
+	 */
+	private boolean first(Board board) {
+		int countThis = 0;
+		int countThat = 0;
+		for (int i = 0; i < board.size(); i++) {
+			if (this.getSymbol() == board.get(i)) {
+				countThis++;
+			} else if (board.get(i) != EMPTY) {
+				countThat++;
+			}
+		}
+		return countThis == countThat;
+	}
+
+	/**
+	 * Check if the board needs to be swapped such that the
+	 * first move was done by a 'X'. This is needed because
+	 * the states hashmap is made with 'X' starting.
+	 *
+	 * @param board to be swapped yes or no
+	 * @return if the board needs to be swapped
+	 */
+	private boolean needsSwap (Board board) {
+		if (first(board)) {
+			return this.getSymbol() == CROSS;
+		} else {
+			return this.getSymbol() == CIRCLE;
+		}
+	}
+
 	@Override
-	public int move(Board board) {
-		if(board.equals(new Board(CROSS)) && states.get(board).move() == -1) {
-			System.out.println("MENACE DIED!");
+	public int move(Board board) throws MoveException, DiedException {
+		if(board.equals(new Board()) && states.get(board).dead()) {
+			throw new DiedException("Menace died!");
 		}
 
-		Board swapped = (board.getFirstMove() == CROSS) ? board.clone() : Transform.swapAll(board);
+		// Swap the boards 'X' and 'O' values so the first move was made by an 'X'.
+		Board swapped = (needsSwap(board)) ? Transform.swapAll(board) : board.clone();
+
+		// Search for the board in the states hashmap by applying transformations
+		// until the board is found.
 		for (Transform transform : Transform.values()) {
 			Board trans = Transform.apply(swapped, transform);
 			if (states.containsKey(trans)) {
 				Matchbox matchbox = states.get(trans);
 				int transMove = matchbox.move();
-				if (transMove == -1) { // forfeit
-					System.out.println(board);
-					return -1;
-				}
 				moved.add(new Pair<>(matchbox, transMove));
 				return Transform.move(transMove, transform, true);
 			}
@@ -126,7 +158,10 @@ public class PlayerMenace extends Player {
 
 	@Override
 	public void learn(Player winner) {
+		final int PUNISHMENT = -1, REWARD_TIE = 1, REWARD_WON = 3;
 		int learn = (winner == null) ? REWARD_TIE : (this.equals(winner) ? REWARD_WON : PUNISHMENT);
+
+		// Remove/add the specified amount of beats for a won/lose/tie.
 		for (Pair<Matchbox, Integer> pair : moved) {
 			pair.x.add(pair.y, learn);
 		}

@@ -3,6 +3,17 @@ package tk.borroot.player.reinforcement;
 import java.util.Random;
 import java.util.Vector;
 
+/**
+ * This class represents a matchbox. In this matchbox
+ * there are beats for every valid move. When a move is
+ * to be taken a random beat will be taken out.
+ *
+ * After the move has been made and the game is finished
+ * the beat will either be removed or move beats will be
+ * added to make menace learn with reinforcement.
+ *
+ * @author Bram Pulles
+ */
 public class Matchbox {
 
 	private int[] moves = {0, 0, 0, 0, 0, 0, 0, 0, 0};

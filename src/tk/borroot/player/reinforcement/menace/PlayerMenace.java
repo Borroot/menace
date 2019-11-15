@@ -11,6 +11,13 @@ import java.util.Vector;
 
 import static tk.borroot.logic.Symbol.*;
 
+/**
+ * An implementation of MENACE! This player plays
+ * the same as MENACE by using (virtual) matchboxes
+ * to pick the move.
+ *
+ * @author Bram Pulles
+ */
 public class PlayerMenace extends Player {
 
 	private Scanner input = new Scanner(System.in);
@@ -125,17 +132,17 @@ public class PlayerMenace extends Player {
 	 * @param board to be swapped yes or no
 	 * @return if the board needs to be swapped
 	 */
-	private boolean needsSwap (Board board) {
+	private boolean needsSwap(Board board) {
 		if (first(board)) {
-			return this.getSymbol() == CROSS;
-		} else {
 			return this.getSymbol() == CIRCLE;
+		} else {
+			return this.getSymbol() == CROSS;
 		}
 	}
 
 	@Override
 	public int move(Board board) throws MoveException, DiedException {
-		if(board.equals(new Board()) && states.get(board).dead()) {
+		if (board.equals(new Board()) && states.get(board).dead()) {
 			throw new DiedException("Menace died!");
 		}
 
@@ -158,7 +165,7 @@ public class PlayerMenace extends Player {
 
 	@Override
 	public void learn(Player winner) {
-		final int PUNISHMENT = -1, REWARD_TIE = 1, REWARD_WON = 3;
+		final int PUNISHMENT = -1, REWARD_TIE = 2, REWARD_WON = 3;
 		int learn = (winner == null) ? REWARD_TIE : (this.equals(winner) ? REWARD_WON : PUNISHMENT);
 
 		// Remove/add the specified amount of beats for a won/lose/tie.

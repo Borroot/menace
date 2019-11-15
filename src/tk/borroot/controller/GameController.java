@@ -5,10 +5,10 @@ import tk.borroot.logic.Logic;
 import tk.borroot.player.Player;
 import tk.borroot.player.perfect.PlayerMinimax;
 import tk.borroot.player.perfect.PlayerNegamax;
+import tk.borroot.player.reinforcement.PlayerQlearning;
 import tk.borroot.player.reinforcement.menace.DiedException;
 import tk.borroot.player.reinforcement.menace.MoveException;
 import tk.borroot.player.reinforcement.menace.PlayerMenace;
-import tk.borroot.player.reinforcement.PlayerQlearning;
 import tk.borroot.player.stupid.PlayerHuman;
 import tk.borroot.player.stupid.PlayerRandom;
 
@@ -37,7 +37,7 @@ public class GameController {
 	private void init() {
 		final int ROUNDS = ask("Amount of rounds (-1 for inf): ");
 		final boolean ALTERNATE = 1 == ask("Do you want to alternate turns? (0) for no, (1) for yes: ");
-		Player[] players = {player(1), player(2)};
+		Player[] players = {player(0), player(1)};
 
 		int[] results = {0, 0, 0}; // wins player 1, wins player 2, ties
 		for (int i = 0; i < ROUNDS || ROUNDS <= -1; i++) {
@@ -46,7 +46,7 @@ public class GameController {
 			try {
 				winner = play(players, (ALTERNATE) ? players[i % players.length] : players[0]);
 			} catch (DiedException e) {
-				System.out.println(e.getMessage());
+				System.out.println(e.getMessage()); // Menace died
 				break;
 			}
 
@@ -82,7 +82,7 @@ public class GameController {
 				try {
 					move = onturn.move(board);
 				} catch (MoveException e) {
-					// no move could be made so it will forfeit
+					// No move could be made so the player will forfeit.
 					return nextTurn(onturn, players);
 				}
 			} while (board.get(move) != EMPTY);
@@ -134,7 +134,7 @@ public class GameController {
 	 * @return a player object
 	 */
 	private Player player(final int num) {
-		int choice = ask("Type for player " + num + ":\n (0) Human    (1) Random\n (2) Minimax  (3) Negamax\n (4) Menace   (5) Qlearning\n> ");
+		int choice = ask("Type for player " + num + 1 + ":\n (0) Human    (1) Random\n (2) Minimax  (3) Negamax\n (4) Menace   (5) Qlearning\n> ");
 
 		Player player;
 		switch (choice) {
@@ -160,7 +160,7 @@ public class GameController {
 				return player(num);
 		}
 
-		player.setSymbol((num == 1) ? CROSS : CIRCLE);
+		player.setSymbol((num == 0) ? CROSS : CIRCLE);
 		return player;
 	}
 }

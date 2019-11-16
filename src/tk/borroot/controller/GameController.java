@@ -136,7 +136,7 @@ public class GameController {
 	 * @return a player object
 	 */
 	private Player player(final int num) {
-		int choice = ask("Type for player " + num + 1 + ":\n (0) Human    (1) Random\n (2) Minimax  (3) Negamax\n (4) Menace   (5) Qlearning\n> ");
+		int choice = ask("Type for player " + (num + 1) + ":\n (0) Human    (1) Random\n (2) Minimax  (3) Negamax\n (4) Menace   (5) Qlearning\n> ");
 
 		Player player;
 		switch (choice) {

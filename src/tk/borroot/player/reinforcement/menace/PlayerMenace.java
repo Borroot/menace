@@ -22,7 +22,7 @@ public class PlayerMenace extends Player {
 
 	private Scanner input = new Scanner(System.in);
 
-	private final int INIT_BEATS;
+	private final int INIT_BEATS, REWARD_TIE, REWARD_WON;
 
 	/**
 	 * This variable represents all the moves menace made during the last game.
@@ -40,7 +40,8 @@ public class PlayerMenace extends Player {
 
 	public PlayerMenace() {
 		INIT_BEATS = ask("Enter the initial amount of beats per move per box: ");
-		// ask for the punishment value and the reward value
+		REWARD_TIE = ask("Enter the reward for a tie: ");
+		REWARD_WON = ask("Enter the reward for a win: ");
 
 		Board board = new Board();
 		searchStates(board, true);
@@ -165,7 +166,7 @@ public class PlayerMenace extends Player {
 
 	@Override
 	public void learn(Player winner) {
-		final int PUNISHMENT = -1, REWARD_TIE = 2, REWARD_WON = 3;
+		final int PUNISHMENT = -1;
 		int learn = (winner == null) ? REWARD_TIE : (this.equals(winner) ? REWARD_WON : PUNISHMENT);
 
 		// Remove/add the specified amount of beats for a won/lose/tie.

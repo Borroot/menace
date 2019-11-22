@@ -192,8 +192,6 @@ public class PlayerQlearning extends Player {
 				return actions.maxValue();
 			}
 		}
-		// TODO remove this print line
-		System.out.println("This is actually an error.");
 		// This should never occur.
 		return 0;
 	}
@@ -209,8 +207,8 @@ public class PlayerQlearning extends Player {
 			final int REWARD = (winner == null) ? 1 : (this.equals(winner)) ? 2 : -2;
 			final float MAX_FUTURE = maxFuture(board, move, swapped);
 
-			float value = (1 - LEARNING_RATE) * actions.get(move) +
-					LEARNING_RATE * (REWARD + DISCOUNT_FACTOR * MAX_FUTURE);
+			// Apply the value iteration formula.
+			float value = (1 - LEARNING_RATE) * actions.get(move) + LEARNING_RATE * (REWARD + DISCOUNT_FACTOR * MAX_FUTURE);
 			actions.set(move, value);
 		}
 		moved.clear();

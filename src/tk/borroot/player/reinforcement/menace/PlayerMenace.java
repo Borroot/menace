@@ -43,8 +43,7 @@ public class PlayerMenace extends Player {
 		REWARD_TIE = ask("Enter the reward for a tie: ");
 		REWARD_WON = ask("Enter the reward for a win: ");
 
-		Board board = new Board();
-		searchStates(board, true);
+		searchStates(new Board(), true);
 	}
 
 	/**

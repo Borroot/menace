@@ -15,7 +15,7 @@ import java.util.Vector;
  *
  * @author Bram Pulles
  */
-public class Matchbox {
+class Matchbox {
 
 	private int[] moves = {0, 0, 0, 0, 0, 0, 0, 0, 0};
 
@@ -77,7 +77,7 @@ public class Matchbox {
 	 *
 	 * @return if the matchbox is empty
 	 */
-	public boolean dead() {
+	boolean dead() {
 		for (int move : moves) {
 			if (move > 0) {
 				return false;

@@ -5,7 +5,7 @@ import tk.borroot.logic.Logic;
 import tk.borroot.player.Player;
 import tk.borroot.player.perfect.PlayerMinimax;
 import tk.borroot.player.perfect.PlayerNegamax;
-import tk.borroot.player.reinforcement.PlayerQlearning;
+import tk.borroot.player.reinforcement.qlearning.PlayerQlearning;
 import tk.borroot.player.reinforcement.menace.DiedException;
 import tk.borroot.player.reinforcement.menace.MoveException;
 import tk.borroot.player.reinforcement.menace.PlayerMenace;

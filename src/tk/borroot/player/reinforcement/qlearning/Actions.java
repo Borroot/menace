@@ -4,6 +4,13 @@ import java.util.Arrays;
 import java.util.Random;
 import java.util.Vector;
 
+/**
+ * This class represents the different values for the possible actions
+ * from a given board state. So this represents one row in the Q-learning
+ * table.
+ *
+ * @author Bram Pulles
+ */
 class Actions {
 
 	private Float[] moves = {null, null, null, null, null, null, null, null, null};

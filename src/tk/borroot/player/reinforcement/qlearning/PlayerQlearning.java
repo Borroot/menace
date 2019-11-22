@@ -178,6 +178,7 @@ public class PlayerQlearning extends Player {
 	 *
 	 * @param board to be made a move on
 	 * @param move  to be made on the board
+	 * @param swapped if the board was swapped before
 	 * @return the max value of the new board
 	 */
 	private float maxFuture(Board board, int move, boolean swapped) {

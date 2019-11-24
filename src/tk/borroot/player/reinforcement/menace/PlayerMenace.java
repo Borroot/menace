@@ -10,6 +10,7 @@ import java.util.Scanner;
 import java.util.Vector;
 
 import static tk.borroot.logic.Symbol.*;
+import static tk.borroot.view.View.askInt;
 
 /**
  * An implementation of MENACE! This player plays
@@ -39,9 +40,9 @@ public class PlayerMenace extends Player {
 	private HashMap<Board, Matchbox> states = new HashMap<>();
 
 	public PlayerMenace() {
-		INIT_BEATS = ask("Enter the initial amount of beats per move per box: ");
-		REWARD_TIE = ask("Enter the reward for a tie: ");
-		REWARD_WON = ask("Enter the reward for a win: ");
+		INIT_BEATS = askInt("Enter the initial amount of beats per move per box: ");
+		REWARD_TIE = askInt("Enter the reward for a tie: ");
+		REWARD_WON = askInt("Enter the reward for a win: ");
 
 		searchStates(new Board(), true);
 	}
@@ -86,22 +87,6 @@ public class PlayerMenace extends Player {
 				searchStates(board, !onturn);
 				board.set(move, EMPTY);
 			}
-		}
-	}
-
-	/**
-	 * Ask for an integer from the player with the given question.
-	 *
-	 * @param question to be asked to the player
-	 * @return the integer chosen by the player
-	 */
-	private int ask(String question) {
-		System.out.print(question);
-		try {
-			return input.nextInt();
-		} catch (Exception e) {
-			input.nextLine();
-			return ask(question);
 		}
 	}
 

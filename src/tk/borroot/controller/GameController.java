@@ -5,16 +5,18 @@ import tk.borroot.logic.Logic;
 import tk.borroot.player.Player;
 import tk.borroot.player.perfect.PlayerMinimax;
 import tk.borroot.player.perfect.PlayerNegamax;
-import tk.borroot.player.reinforcement.qlearning.PlayerQlearning;
 import tk.borroot.player.reinforcement.menace.DiedException;
 import tk.borroot.player.reinforcement.menace.MoveException;
 import tk.borroot.player.reinforcement.menace.PlayerMenace;
+import tk.borroot.player.reinforcement.qlearning.PlayerQlearning;
 import tk.borroot.player.stupid.PlayerHuman;
 import tk.borroot.player.stupid.PlayerRandom;
 
+import java.util.Arrays;
 import java.util.Scanner;
 
 import static tk.borroot.logic.Symbol.*;
+import static tk.borroot.view.View.askInt;
 
 /**
  * This class handles the overall game logic.
@@ -35,16 +37,20 @@ public class GameController {
 	 * has been played.
 	 */
 	private void init() {
-		final int ROUNDS = ask("Amount of rounds (-1 for inf): ");
-		final boolean ALTERNATE = 1 == ask("Do you want to alternate turns? (0) for no, (1) for yes: ");
+		final int ROUNDS = askInt("Amount of rounds to play: ");
+		final boolean ALTERNATE = 1 == askInt("Do you want to alternate turns? (0) for no, (1) for yes: ");
 		Player[] players = {player(0), player(1)};
 
+		// Initialize two arrays to store some results.
+		int[] details = new int[ROUNDS]; // loss = -1, tie = 0, win = 1 for player 1 (player 2 is opposites)
 		int[] results = {0, 0, 0}; // wins player 1, wins player 2, ties
-		for (int i = 0; i < ROUNDS || ROUNDS <= -1; i++) {
+
+		// Play the rounds.
+		for (int round = 0; round < ROUNDS; round++) {
 			// Every new round another player will start, if alternate is true.
-			Player winner = null;
+			Player winner;
 			try {
-				winner = play(players, (ALTERNATE) ? players[i % players.length] : players[0]);
+				winner = play(players, (ALTERNATE) ? players[round % players.length] : players[0]);
 			} catch (DiedException e) {
 				System.out.println(e.getMessage()); // Menace died
 				break;
@@ -58,11 +64,14 @@ public class GameController {
 			// Process the result.
 			if (winner == null) {
 				results[2]++;
+				// Details value is by default zero so we don't have to change this.
 			} else {
 				results[(winner == players[0]) ? 0 : 1]++;
+				details[round] = (winner == players[0]) ? 1 : -1;
 			}
 		}
 		System.out.println("Player 1 won " + results[0] + " time(s), Player 2 won " + results[1] + " time(s) and there were " + results[2] + " tie(s).");
+		System.out.println("Detailed results: " + Arrays.toString(details));
 	}
 
 	/**
@@ -114,29 +123,13 @@ public class GameController {
 	}
 
 	/**
-	 * Ask for an integer from the player with the given question.
-	 *
-	 * @param question to be asked to the player
-	 * @return the integer chosen by the player
-	 */
-	private int ask(String question) {
-		System.out.print(question);
-		try {
-			return input.nextInt();
-		} catch (Exception e) {
-			input.nextLine();
-			return ask(question);
-		}
-	}
-
-	/**
 	 * Ask for the type of player 1 or 2.
 	 *
 	 * @param num either 1 or 2 representing player 1 and 2
 	 * @return a player object
 	 */
 	private Player player(final int num) {
-		int choice = ask("Type for player " + (num + 1) + ":\n (0) Human    (1) Random\n (2) Minimax  (3) Negamax\n (4) Menace   (5) Qlearning\n> ");
+		int choice = askInt("Type for player " + (num + 1) + ":\n (0) Human    (1) Random\n (2) Minimax  (3) Negamax\n (4) Menace   (5) Qlearning\n> ");
 
 		Player player;
 		switch (choice) {

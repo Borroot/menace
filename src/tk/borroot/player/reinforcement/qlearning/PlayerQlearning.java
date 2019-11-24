@@ -11,6 +11,7 @@ import java.util.Scanner;
 import java.util.Vector;
 
 import static tk.borroot.logic.Symbol.*;
+import static tk.borroot.view.View.*;
 
 /**
  * This class represents a player which plays using Q-learning!
@@ -22,6 +23,7 @@ public class PlayerQlearning extends Player {
 	private Scanner input = new Scanner(System.in);
 
 	private final float LEARNING_RATE, DISCOUNT_FACTOR, EXPLORATION;
+	private final int START_EXPLORATION, END_EXPLORATION;
 
 	/**
 	 * This variable represents all the moves qlearning made during the last game.
@@ -41,9 +43,11 @@ public class PlayerQlearning extends Player {
 	private HashMap<Board, Actions> table = new HashMap<>();
 
 	public PlayerQlearning() {
-		LEARNING_RATE = ask("Please choose the learning rate (alpha) between 0 and 1: ");
-		DISCOUNT_FACTOR = ask("Please choose the discount factor (gamma) between 0 and 1: ");
-		EXPLORATION = ask("Please choose the exploration value (epsilon, amount of random moves): ");
+		LEARNING_RATE = askFloat("Please choose the learning rate (alpha) between 0 and 1: ");
+		DISCOUNT_FACTOR = askFloat("Please choose the discount factor (gamma) between 0 and 1: ");
+		EXPLORATION = askFloat("Please choose the exploration value (epsilon, amount of random moves): ");
+		START_EXPLORATION = askInt("Please choose a start for exploration degradation: ");
+		END_EXPLORATION = askInt("Please choose an end for exploration degradation: ");
 
 		searchStates(new Board(), true);
 	}
@@ -88,22 +92,6 @@ public class PlayerQlearning extends Player {
 				searchStates(board, !onturn);
 				board.set(move, EMPTY);
 			}
-		}
-	}
-
-	/**
-	 * Ask for float from the player with the given question.
-	 *
-	 * @param question to be asked to the player
-	 * @return the float chosen by the player
-	 */
-	private float ask(String question) {
-		System.out.print(question);
-		try {
-			return input.nextFloat();
-		} catch (Exception e) {
-			input.nextLine();
-			return ask(question);
 		}
 	}
 

@@ -161,8 +161,7 @@ public class PlayerQlearning extends Player {
 		boolean needsSwap = needsSwap(board);
 		Board swapped = (needsSwap) ? Transform.swapAll(board) : board.clone();
 
-		// Search for the board in the states hashmap by applying transformations
-		// until the board is found.
+		// Search for the board in the states hashmap by applying transformations until the board is found.
 		for (Transform transform : Transform.values()) {
 			Board trans = Transform.apply(swapped, transform);
 			if (table.containsKey(trans)) {

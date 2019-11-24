@@ -161,8 +161,7 @@ public class PlayerMenace extends Player {
 		// Swap the boards 'X' and 'O' values so the first move was made by an 'X'.
 		Board swapped = (needsSwap(board)) ? Transform.swapAll(board) : board.clone();
 
-		// Search for the board in the states hashmap by applying transformations
-		// until the board is found.
+		// Search for the board in the states hashmap by applying transformations until the board is found.
 		for (Transform transform : Transform.values()) {
 			Board trans = Transform.apply(swapped, transform);
 			if (states.containsKey(trans)) {

@@ -10,7 +10,8 @@ import java.util.Random;
 import java.util.Vector;
 
 import static tk.borroot.logic.Symbol.*;
-import static tk.borroot.view.View.*;
+import static tk.borroot.view.View.askFloat;
+import static tk.borroot.view.View.askInt;
 
 /**
  * This class represents a player which plays using Q-learning!
@@ -193,8 +194,8 @@ public class PlayerQlearning extends Player {
 	 * first making the move on the board and then taking the maximum
 	 * value of all actions from this new board.
 	 *
-	 * @param board to be made a move on
-	 * @param move  to be made on the board
+	 * @param board   to be made a move on
+	 * @param move    to be made on the board
 	 * @param swapped if the board was swapped before
 	 * @return the max value of the new board
 	 */
@@ -231,5 +232,10 @@ public class PlayerQlearning extends Player {
 		}
 		moved.clear();
 		round++;
+	}
+
+	@Override
+	public String toString() {
+		return "Q-Learning";
 	}
 }

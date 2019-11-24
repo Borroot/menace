@@ -64,6 +64,6 @@ public abstract class Player {
 
 	@Override
 	public String toString() {
-		return symbol.toString();
+		return "Please give this player a unique name!";
 	}
 }

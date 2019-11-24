@@ -42,4 +42,9 @@ public class PlayerHuman extends Player {
 			System.out.println("It's a tie!");
 		}
 	}
+
+	@Override
+	public String toString() {
+		return "Human";
+	}
 }

@@ -35,6 +35,7 @@ public class GameController {
 	 * has been played.
 	 */
 	private void init() {
+		final boolean PLOTS = 1 == askInt("Do you want to generate plots? (0) for no, (1) for yes: ");
 		final int ROUNDS = askInt("Amount of rounds to play: ");
 		final boolean ALTERNATE = 1 == askInt("Do you want to alternate turns? (0) for no, (1) for yes: ");
 		Player[] players = {player(0), player(1)};
@@ -69,7 +70,13 @@ public class GameController {
 			}
 		}
 		System.out.println("Player 1 won " + results[0] + " time(s), Player 2 won " + results[1] + " time(s) and there were " + results[2] + " tie(s).");
-		System.err.println(Arrays.toString(details));
+
+		// This output is useful for when making plots.
+		if (PLOTS) {
+			System.err.println(players[0]);
+			System.err.println(players[1]);
+			System.err.println(Arrays.toString(details));
+		}
 	}
 
 	/**

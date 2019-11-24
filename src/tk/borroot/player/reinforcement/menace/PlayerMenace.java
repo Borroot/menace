@@ -185,4 +185,9 @@ public class PlayerMenace extends Player {
 		}
 		moved.clear();
 	}
+
+	@Override
+	public String toString() {
+		return "Menace";
+	}
 }

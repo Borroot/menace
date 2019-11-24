@@ -112,4 +112,9 @@ public class PlayerMinimax extends Player {
 	public void learn(Player winner) {
 		// no reinforcement learning
 	}
+
+	@Override
+	public String toString() {
+		return "Minimax";
+	}
 }

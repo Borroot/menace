@@ -222,7 +222,7 @@ public class PlayerQlearning extends Player {
 			boolean swapped = (boolean) triplet.z;
 
 			Actions actions = table.get(board);
-			final int REWARD = (winner == null) ? 1 : (this.equals(winner)) ? 2 : -2;
+			final int REWARD = (winner == null) ? 2 : (this.equals(winner)) ? 2 : -2;
 			final float MAX_FUTURE = maxFuture(board, move, swapped);
 
 			// Apply the value iteration formula.

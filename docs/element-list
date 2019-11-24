@@ -6,3 +6,4 @@ tk.borroot.player.perfect
 tk.borroot.player.reinforcement.menace
 tk.borroot.player.reinforcement.qlearning
 tk.borroot.player.stupid
+tk.borroot.view

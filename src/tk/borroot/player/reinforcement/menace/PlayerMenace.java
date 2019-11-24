@@ -126,9 +126,35 @@ public class PlayerMenace extends Player {
 		}
 	}
 
+	/**
+	 * Check if menace has died by checking if all of the starting
+	 * boards for player 1 or player 2 are empty.
+	 *
+	 * @return if menace died
+	 */
+	private boolean menaceDied() {
+		// Check the empty board for the first player.
+		if (states.get(new Board()).dead()) {
+			return true;
+		}
+
+		// Check the boards for the second player.
+		for (int i : new int[]{0, 1, 4}) {
+			Board board = new Board();
+			board.set(i, CROSS);
+			if (!states.get(board).dead()) {
+				// Menace did not die yet.
+				return false;
+			}
+		}
+
+		// All of the boards for the second player are dead.
+		return true;
+	}
+
 	@Override
 	public int move(Board board) throws MoveException, DiedException {
-		if (board.equals(new Board()) && states.get(board).dead()) {
+		if (menaceDied()) {
 			throw new DiedException("Menace died!");
 		}
 

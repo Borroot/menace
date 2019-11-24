@@ -25,8 +25,6 @@ import static tk.borroot.view.View.askInt;
  */
 public class GameController {
 
-	private Scanner input = new Scanner(System.in);
-
 	public GameController() {
 		init();
 	}
@@ -71,7 +69,7 @@ public class GameController {
 			}
 		}
 		System.out.println("Player 1 won " + results[0] + " time(s), Player 2 won " + results[1] + " time(s) and there were " + results[2] + " tie(s).");
-		System.out.println("Detailed results: " + Arrays.toString(details));
+		System.err.println(Arrays.toString(details));
 	}
 
 	/**

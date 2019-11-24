@@ -7,7 +7,6 @@ import tk.borroot.player.Player;
 
 import java.util.HashMap;
 import java.util.Random;
-import java.util.Scanner;
 import java.util.Vector;
 
 import static tk.borroot.logic.Symbol.*;
@@ -20,10 +19,33 @@ import static tk.borroot.view.View.*;
  */
 public class PlayerQlearning extends Player {
 
-	private Scanner input = new Scanner(System.in);
+	/**
+	 * The learning rate (alpha) and the discount factor (gamma) they range in [0,1].
+	 */
+	private final float LEARNING_RATE, DISCOUNT_FACTOR;
 
-	private final float LEARNING_RATE, DISCOUNT_FACTOR, EXPLORATION;
-	private final int START_EXPLORATION, END_EXPLORATION;
+	/**
+	 * The n'th round where the epsilon value will start to decrease
+	 * and where the epsilon value will reach zero. Between the start
+	 * and the end the value will decrease uniformly.
+	 */
+	private final int START_DEGRADATION, END_DEGRADATION;
+
+	/**
+	 * The exploration value (epsilon) which describes the amount
+	 * of random moves to be made.
+	 */
+	private float exploration;
+
+	/**
+	 * The average decrease with every round of the exploration value.
+	 */
+	private final float DEGRADATION_PER_ROUND;
+
+	/**
+	 * It is currently the n'th round.
+	 */
+	private int round = 1;
 
 	/**
 	 * This variable represents all the moves qlearning made during the last game.
@@ -45,9 +67,12 @@ public class PlayerQlearning extends Player {
 	public PlayerQlearning() {
 		LEARNING_RATE = askFloat("Please choose the learning rate (alpha) between 0 and 1: ");
 		DISCOUNT_FACTOR = askFloat("Please choose the discount factor (gamma) between 0 and 1: ");
-		EXPLORATION = askFloat("Please choose the exploration value (epsilon, amount of random moves): ");
-		START_EXPLORATION = askInt("Please choose a start for exploration degradation: ");
-		END_EXPLORATION = askInt("Please choose an end for exploration degradation: ");
+
+		exploration = askFloat("Please choose the exploration value (epsilon, amount of random moves): ");
+
+		START_DEGRADATION = askInt("Please choose a start for exploration degradation: ");
+		END_DEGRADATION = askInt("Please choose an end for exploration degradation: ");
+		DEGRADATION_PER_ROUND = exploration / (END_DEGRADATION - START_DEGRADATION);
 
 		searchStates(new Board(), true);
 	}
@@ -145,11 +170,16 @@ public class PlayerQlearning extends Player {
 
 				// Make either a random move or take the best move.
 				int transMove;
-				if (new Random().nextFloat() < EXPLORATION) {
+				if (new Random().nextFloat() < exploration) {
 					Vector<Integer> moves = trans.moves();
 					transMove = moves.get(new Random().nextInt(moves.size()));
 				} else {
 					transMove = actions.bestMove();
+				}
+
+				// Update the epsilon value for degradation.
+				if (round >= START_DEGRADATION && round < END_DEGRADATION) {
+					exploration -= DEGRADATION_PER_ROUND;
 				}
 
 				moved.add(new Triplet<>(trans, transMove, needsSwap));
@@ -201,5 +231,6 @@ public class PlayerQlearning extends Player {
 			actions.set(move, value);
 		}
 		moved.clear();
+		round++;
 	}
 }

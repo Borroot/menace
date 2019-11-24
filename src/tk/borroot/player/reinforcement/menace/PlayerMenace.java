@@ -6,7 +6,6 @@ import tk.borroot.logic.Transform;
 import tk.borroot.player.Player;
 
 import java.util.HashMap;
-import java.util.Scanner;
 import java.util.Vector;
 
 import static tk.borroot.logic.Symbol.*;
@@ -21,8 +20,10 @@ import static tk.borroot.view.View.askInt;
  */
 public class PlayerMenace extends Player {
 
-	private Scanner input = new Scanner(System.in);
-
+	/**
+	 * The initial amount of beats per box per move. The
+	 * amount of beats as a reward for a tie and a win.
+	 */
 	private final int INIT_BEATS, REWARD_TIE, REWARD_WON;
 
 	/**

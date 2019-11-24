@@ -2,10 +2,18 @@ package tk.borroot.view;
 
 import java.util.Scanner;
 
+/**
+ * This class can be used to get user input, thus providing a view for the player.
+ *
+ * @author Bram Pulles
+ */
 public class View {
 
 	private static Scanner input = new Scanner(System.in);
 
+	/**
+	 * This class is not supposed to be instantiated.
+	 */
 	private View() {
 	}
 

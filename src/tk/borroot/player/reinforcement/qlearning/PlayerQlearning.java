@@ -26,6 +26,11 @@ public class PlayerQlearning extends Player {
 	private final float LEARNING_RATE, DISCOUNT_FACTOR;
 
 	/**
+	 * The values to be applied for a tie, win and loss.
+	 */
+	private final int REWARD_TIE, REWARD_WIN, PUNSIHMENT;
+
+	/**
 	 * The n'th round where the epsilon value will start to decrease
 	 * and where the epsilon value will reach zero. Between the start
 	 * and the end the value will decrease uniformly.
@@ -74,6 +79,10 @@ public class PlayerQlearning extends Player {
 		START_DEGRADATION = askInt("Please choose a start for exploration degradation: ");
 		END_DEGRADATION = askInt("Please choose an end for exploration degradation: ");
 		DEGRADATION_PER_ROUND = exploration / (END_DEGRADATION - START_DEGRADATION);
+
+		REWARD_TIE = askInt("Please enter the reward for a tie: ");
+		REWARD_WIN = askInt("Please enter the reward for a win: ");
+		PUNSIHMENT = askInt("Please enter the the punishment for a loss: ");
 
 		searchStates(new Board(), true);
 	}
@@ -223,7 +232,7 @@ public class PlayerQlearning extends Player {
 			boolean swapped = (boolean) triplet.z;
 
 			Actions actions = table.get(board);
-			final int REWARD = (winner == null) ? 2 : (this.equals(winner)) ? 2 : -2;
+			final int REWARD = (winner == null) ? REWARD_TIE : (this.equals(winner)) ? REWARD_WIN : PUNSIHMENT;
 			final float MAX_FUTURE = maxFuture(board, move, swapped);
 
 			// Apply the value iteration formula.

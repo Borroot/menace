@@ -73,8 +73,6 @@ public class GameController {
 
 		// This output is useful for when making plots.
 		if (PLOTS) {
-			System.err.println(players[0]);
-			System.err.println(players[1]);
 			System.err.println(Arrays.toString(details));
 		}
 	}

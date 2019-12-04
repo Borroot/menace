@@ -82,7 +82,7 @@ public class PlayerQlearning extends Player {
 
 		REWARD_TIE = askInt("Please enter the reward for a tie: ");
 		REWARD_WIN = askInt("Please enter the reward for a win: ");
-		PUNSIHMENT = askInt("Please enter the the punishment for a loss: ");
+		PUNSIHMENT = askInt("Please enter the the punishment for a loss (negative number): ");
 
 		searchStates(new Board(), true);
 	}

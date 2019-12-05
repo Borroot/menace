@@ -1,0 +1,53 @@
+#!/usr/bin/env zsh
+
+# Variables to run the program.
+DIR=../menace/out/production/menace/
+MAIN=tk.borroot.Main
+TMP=$(mktemp)
+
+# Arguments to the menace program.
+ROUNDS=600
+ALTERNATE=1
+
+# Menace
+M_INIT=1
+M_REWARD_TIE=2
+M_REWARD_WIN=2
+MENACE="4\n$M_INIT\n$M_REWARD_TIE\n$M_REWARD_WIN"
+
+# Q-learning
+Q_ALPHA=0.1
+Q_GAMMA=0.9
+
+Q_EPSILON=0.2
+Q_EPSILON_START_D=200
+Q_EPSILON_STOP_D=400
+
+Q_REWARD_TIE=1
+Q_REWARD_WIN=2
+Q_PUNSIH_LOSS=-1
+
+QLEARNING="5\n$Q_ALPHA\n$Q_GAMMA\n$Q_EPSILON\n$Q_EPSILON_START_D\n\
+	$Q_EPSILON_STOP_D\n$Q_REWARD_TIE\n$Q_REWARD_WIN\n$Q_PUNSIH_LOSS"
+
+# Specify the players for the args.
+# human = 0, random = 1, minimax = 2, negamax = 3.
+PLAYER1="$MENACE"
+PLAYER2=3
+
+ARGS="1\n$ROUNDS\n$ALTERNATE\n$PLAYER1\n$PLAYER2\n"
+
+# Amount of runs to make.
+RUNS=50
+
+# Run the program with the specified arguments.
+for ((i = 0; i < $RUNS; i++))
+do
+	echo "Performing round $((i + 1))."
+	echo -e $ARGS | java -cp $DIR $MAIN > /dev/null 2>> $TMP
+done
+
+echo "Making the graph."
+./plots.py < $TMP &!
+
+rm -f $TMP
